@@ -9,10 +9,11 @@ Create a Web API that will provide persistence to your JavaScript application (f
  * Controllers have only and single responsibility – they react to user calls
  * Dependency injection is a must (since you favor TDD, right)
  * It is a simple application, so some simplifications are allowed (some are not):
-(OK) having a single assembly for all contracts and (single) DTO is perfectly OK
-(OK) dependency injection framework is referenced in all assemblies
-(BAD) having a public implementation of a contract is NOT OK → their implementation must be internal
-(BAD) having single assembly is NOT OK → (Web) API, (intra-assembly) contracts and database assemblies should emerge by now
+   - (OK) having a single assembly for all contracts and (single) DTO is perfectly OK
+   - (OK) dependency injection framework is referenced in all assemblies
+   - (BAD) having a public implementation of a contract is NOT OK → their implementation must be internal
+   - (BAD) having single assembly is NOT OK → (Web) API, (intra-assembly) contracts and database assemblies should emerge by now
+
 
 ##### Technology stack
  * be [as async as possible](https://msdn.microsoft.com/en-us/magazine/dn802603.aspx) in controllers and services and repositories
