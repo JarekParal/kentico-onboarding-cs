@@ -1,0 +1,13 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: 
+  - Debug
+  - Release
+#cache:
+#  - packages -> **\packages.config  
+before_build:
+  - nuget restore ./TodoList/TodoList.sln  
+build:
+  parallel: true                  # enable MSBuild parallel builds
+  project: ./TodoList/TodoList.sln      
+ 
