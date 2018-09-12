@@ -1,4 +1,4 @@
-# kentico-onboarding-cs
+# kentico-onboarding-cs [![Build status](https://ci.appveyor.com/api/projects/status/hd46h13gmf8kkq9h?svg=true)](https://ci.appveyor.com/project/JarekParal/kentico-onboarding-cs)
 
 #### Summary
 Create a Web API that will provide persistence to your JavaScript application (from task 5) using the latest .NET Framework (not .NET Core).
