@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TodoList.Api")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("REST api for TodoList app.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("KenticoAcademy")]
 [assembly: AssemblyProduct("TodoList.Api")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
