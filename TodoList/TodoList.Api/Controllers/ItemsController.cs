@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using TodoList.Api.Models;
 
 namespace TodoList.Api.Controllers
@@ -12,26 +14,40 @@ namespace TodoList.Api.Controllers
     {
         Item[] items = new Item[]
         {
-            new Item {id = 1, name = "Dog"},
-            new Item {id = 2, name = "Cat"},
-            new Item {id = 3, name = "Elephant"},
+            new Item {Id = 1, Text = "Dog"},
+            new Item {Id = 2, Text = "Cat"},
+            new Item {Id = 3, Text = "Elephant"},
         };
 
-        // GET: api/Items
-        public IEnumerable<Item> Get()
+        [Route("api/v1/Items")]
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            return Ok(items);
+        }
+
+        public IEnumerable<Item> GetAllItems()
         {
             return items;
         }
 
-        // GET: api/Items/5
-        public Item Get(int id)
+        [Route("api/v1/Items/{id}", Name = "GetItem")]
+        [HttpGet]
+        public IHttpActionResult GetItem(int id)
         {
-            return items[id];
+            var item = items.FirstOrDefault((p) => p.Id == id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
         }
 
-        // POST: api/Items
-        public void Post([FromBody]string value)
+        [Route("api/v1/Items")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] Item item)
         {
+            return CreatedAtRoute("GetItem", new { id = item.Id}, item);
         }
 
         // PUT: api/Items/5
