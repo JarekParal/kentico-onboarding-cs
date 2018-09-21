@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Results;
 using TodoList.Api.Models;
 
 namespace TodoList.Api.Controllers
 {
+    [RoutePrefix("api/v1/Items")]
     public class ItemsController : ApiController
     {
-        Item[] items = new Item[]
-        {
+        private static readonly Item[] s_items = {
             new Item {Id = 1, Text = "Dog"},
             new Item {Id = 2, Text = "Cat"},
-            new Item {Id = 3, Text = "Elephant"},
+            new Item {Id = 3, Text = "Elephant"}
         };
 
-        [Route("api/v1/Items")]
+        [Route("")]
         [HttpGet]
         public IHttpActionResult Get()
         {
-            return Ok(items);
+            return Ok(s_items);
         }
 
-        [Route("api/v1/Items/{id}", Name = "GetItem")]
+        [Route("{id}", Name = "GetItem")]
         [HttpGet]
         public IHttpActionResult GetItem(int id)
         {
-            var item = items.FirstOrDefault((p) => p.Id == id);
+            var item = FoundItem(id);
             if (item == null)
             {
                 return NotFound();
@@ -38,41 +33,39 @@ namespace TodoList.Api.Controllers
             return Ok(item);
         }
 
-        [Route("api/v1/Items")]
+        [Route("")]
         [HttpPost]
         public IHttpActionResult Post([FromBody] Item item)
         {
             return CreatedAtRoute("GetItem", new { id = item.Id}, item);
         }
 
-        [Route("api/v1/Items")]
+        [Route("{id}")]
         [HttpPut]
-        public IHttpActionResult Put(int id, Item item)
+        public IHttpActionResult Put(int id, [FromBody] Item item)
         {
             if (FoundItem(id) == null)
             {
-                return StatusCode(HttpStatusCode.Created);
+                return CreatedAtRoute("GetItem", new { id = item.Id }, item);
             }
             return StatusCode(HttpStatusCode.OK);
         }
 
-        [Route("api/v1/Items")]
+        [Route("{id}")]
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-            var item = items.FirstOrDefault((p) => p.Id == id);
-            if (item == null)
+            if (FoundItem(id) == null)
             {
                 return NotFound();
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        private Item FoundItem(int id)
+        private static Item FoundItem(int id)
         {
-            var itemFound = items.FirstOrDefault((p) => p.Id == id);
+            var itemFound = s_items.FirstOrDefault((p) => p.Id == id);
             return itemFound;
         }
-
     }
 }

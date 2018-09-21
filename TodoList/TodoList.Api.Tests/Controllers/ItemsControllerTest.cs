@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Net;
 using System.Web.Http;
 using System.Web.Http.Results;
 using NUnit.Framework;
@@ -20,7 +15,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.Get();
+            var actionResult = controller.Get();
             var contentResult = actionResult as OkNegotiatedContentResult<Item[]>;
 
             Assert.That(contentResult, Is.Not.Null);
@@ -28,11 +23,11 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void Get_WithValidIdParams_ReturnsOneItem()
+        public void GetItem_WithValidId_ReturnsOneItem()
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.GetItem(1);
+            var actionResult = controller.GetItem(1);
             var contentResult = actionResult as OkNegotiatedContentResult<Item>;
 
             Assert.That(contentResult, Is.Not.Null);
@@ -41,21 +36,21 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void Get_WithInvalidIdParams_ReturnsNoItem()
+        public void GetItem_WithInvalidId_ReturnsNoItem()
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.GetItem(5);
+            var actionResult = controller.GetItem(5);
 
             Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
         }
 
         [Test]
-        public void Post_AddOneItem_ReturnsTheItem()
+        public void Post_AddOneItem_ReturnsAddedItem()
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.Post(new Item { Text = "CatDog" });
+            var actionResult = controller.Post(new Item {Text = "CatDog"});
             var contentResult = actionResult as CreatedAtRouteNegotiatedContentResult<Item>;
 
             Assert.That(contentResult, Is.Not.Null);
@@ -67,7 +62,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.Put(1, new Item { Id = 1, Text = "DogDog" });
+            var actionResult = controller.Put(1, new Item {Id = 1, Text = "DogDog"});
             var contentResult = actionResult as StatusCodeResult;
 
             Assert.That(contentResult, Is.Not.Null);
@@ -79,19 +74,19 @@ namespace TodoList.Api.Tests.Controllers
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.Put(5, new Item { Id = 5, Text = "CatDogCat" });
+            var actionResult = controller.Put(5, new Item {Id = 5, Text = "CatDogCat"});
             var contentResult = actionResult as StatusCodeResult;
 
             Assert.That(contentResult, Is.Not.Null);
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
-        
+
         [Test]
         public void Delete_OneExistingItem_ReturnsStatusCodeNoContent()
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.Delete(1);
+            var actionResult = controller.Delete(1);
             var contentResult = actionResult as StatusCodeResult;
 
             Assert.That(contentResult, Is.Not.Null);
@@ -103,10 +98,9 @@ namespace TodoList.Api.Tests.Controllers
         {
             var controller = new ItemsController();
 
-            IHttpActionResult actionResult = controller.Delete(5);
+            var actionResult = controller.Delete(5);
 
             Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
-
         }
     }
 }
