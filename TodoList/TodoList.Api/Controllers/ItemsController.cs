@@ -50,9 +50,16 @@ namespace TodoList.Api.Controllers
         {
         }
 
-        // DELETE: api/Items/5
-        public void Delete(int id)
+        [Route("api/v1/Items")]
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
         {
+            var item = items.FirstOrDefault((p) => p.Id == id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }

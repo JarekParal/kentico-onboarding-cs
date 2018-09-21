@@ -63,15 +63,26 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void Delete_OneItem_ReturnsTheItem()
+        public void Delete_OneExistingItem_ReturnsStatusCodeNoContent()
         {
             var controller = new ItemsController();
 
             IHttpActionResult actionResult = controller.Delete(1);
-            var contentResult = actionResult as NegotiatedContentResult<Item>;
+            var contentResult = actionResult as StatusCodeResult;
 
             Assert.That(contentResult, Is.Not.Null);
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+        }
+
+        [Test]
+        public void Delete_NoExistingItem_ReturnsStatusCodeNotFound()
+        {
+            var controller = new ItemsController();
+
+            IHttpActionResult actionResult = controller.Delete(5);
+
+            Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
+
         }
     }
 }
