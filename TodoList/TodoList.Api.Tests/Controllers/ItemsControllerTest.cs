@@ -63,6 +63,30 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
+        public void Put_EditExistingItem_ReturnsStatusCodeOk()
+        {
+            var controller = new ItemsController();
+
+            IHttpActionResult actionResult = controller.Put(1, new Item { Id = 1, Text = "DogDog" });
+            var contentResult = actionResult as StatusCodeResult;
+
+            Assert.That(contentResult, Is.Not.Null);
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        }
+
+        [Test]
+        public void Put_AddNewItem_ReturnsStatusCodeCreated()
+        {
+            var controller = new ItemsController();
+
+            IHttpActionResult actionResult = controller.Put(5, new Item { Id = 5, Text = "CatDogCat" });
+            var contentResult = actionResult as StatusCodeResult;
+
+            Assert.That(contentResult, Is.Not.Null);
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+        }
+        
+        [Test]
         public void Delete_OneExistingItem_ReturnsStatusCodeNoContent()
         {
             var controller = new ItemsController();
