@@ -26,11 +26,6 @@ namespace TodoList.Api.Controllers
             return Ok(items);
         }
 
-        public IEnumerable<Item> GetAllItems()
-        {
-            return items;
-        }
-
         [Route("api/v1/Items/{id}", Name = "GetItem")]
         [HttpGet]
         public IHttpActionResult GetItem(int id)
