@@ -45,9 +45,15 @@ namespace TodoList.Api.Controllers
             return CreatedAtRoute("GetItem", new { id = item.Id}, item);
         }
 
-        // PUT: api/Items/5
-        public void Put(int id, [FromBody]string value)
+        [Route("api/v1/Items")]
+        [HttpPut]
+        public IHttpActionResult Put(int id, Item item)
         {
+            if (FoundItem(id) == null)
+            {
+                return StatusCode(HttpStatusCode.Created);
+            }
+            return StatusCode(HttpStatusCode.OK);
         }
 
         [Route("api/v1/Items")]
@@ -61,5 +67,12 @@ namespace TodoList.Api.Controllers
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        private Item FoundItem(int id)
+        {
+            var itemFound = items.FirstOrDefault((p) => p.Id == id);
+            return itemFound;
+        }
+
     }
 }
