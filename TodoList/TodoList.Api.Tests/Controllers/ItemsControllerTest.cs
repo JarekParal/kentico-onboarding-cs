@@ -61,5 +61,17 @@ namespace TodoList.Api.Tests.Controllers
             Assert.That(contentResult, Is.Not.Null);
             Assert.That(contentResult.Content.Text, Is.EqualTo("CatDog"));
         }
+
+        [Test]
+        public void Delete_OneItem_ReturnsTheItem()
+        {
+            var controller = new ItemsController();
+
+            IHttpActionResult actionResult = controller.Delete(1);
+            var contentResult = actionResult as NegotiatedContentResult<Item>;
+
+            Assert.That(contentResult, Is.Not.Null);
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+        }
     }
 }
