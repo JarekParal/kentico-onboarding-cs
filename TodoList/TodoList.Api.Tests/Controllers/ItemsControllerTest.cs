@@ -75,10 +75,10 @@ namespace TodoList.Api.Tests.Controllers
             var controller = new ItemsController();
 
             var actionResult = controller.Put(5, new Item {Id = 5, Text = "CatDogCat"});
-            var contentResult = actionResult as StatusCodeResult;
+            var contentResult = actionResult as CreatedAtRouteNegotiatedContentResult<Item>;
 
             Assert.That(contentResult, Is.Not.Null);
-            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(contentResult.Content.Text, Is.EqualTo("CatDogCat"));
         }
 
         [Test]
