@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Results;
 using NUnit.Framework;
@@ -36,11 +38,13 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
+        [Ignore("This test will be used in task 3 (CS) - after adding a database.")]
         public void GetItem_WithInvalidId_ReturnsNoItem()
         {
             var controller = new ItemsController();
 
             var actionResult = controller.GetItem(5);
+            actionResult.ExecuteAsync(CancellationToken.None).Result.TryGetContentValue(out string content);
 
             Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
         }
@@ -70,6 +74,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
+        [Ignore("This test will be used in task 3 (CS) - after adding a database.")]
         public void Put_AddNewItem_ReturnsStatusCodeCreated()
         {
             var controller = new ItemsController();
@@ -94,6 +99,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
+        [Ignore("This test will be used in task 3 (CS) - after adding a database.")]
         public void Delete_NoExistingItem_ReturnsStatusCodeNotFound()
         {
             var controller = new ItemsController();
