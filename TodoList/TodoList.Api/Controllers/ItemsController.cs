@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Web.Http;
 using TodoList.Api.Models;
 
@@ -23,44 +22,25 @@ namespace TodoList.Api.Controllers
         [Route("{id}", Name = "GetItem")]
         public IHttpActionResult Get(int id)
         {
-            var item = FoundItem(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return Ok(item);
+            return Ok(s_items[0]);
         }
 
         [Route("")]
         public IHttpActionResult Post([FromBody] Item item)
         {
-            return CreatedAtRoute("GetItem", new { id = item.Id}, item);
+            return CreatedAtRoute("GetItem", new { id = item.Id }, item);
         }
 
         [Route("{id}")]
         public IHttpActionResult Put(int id, [FromBody] Item item)
         {
-            if (FoundItem(id) == null)
-            {
-                return CreatedAtRoute("GetItem", new { id = item.Id }, item);
-            }
             return StatusCode(HttpStatusCode.OK);
         }
 
         [Route("{id}")]
         public IHttpActionResult Delete(int id)
         {
-            if (FoundItem(id) == null)
-            {
-                return NotFound();
-            }
             return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        private static Item FoundItem(int id)
-        {
-            var itemFound = s_items.FirstOrDefault((p) => p.Id == id);
-            return itemFound;
         }
     }
 }
