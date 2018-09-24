@@ -15,15 +15,13 @@ namespace TodoList.Api.Controllers
         };
 
         [Route("")]
-        [HttpGet]
         public IHttpActionResult Get()
         {
             return Ok(s_items);
         }
 
         [Route("{id}", Name = "GetItem")]
-        [HttpGet]
-        public IHttpActionResult GetItem(int id)
+        public IHttpActionResult Get(int id)
         {
             var item = FoundItem(id);
             if (item == null)
@@ -34,14 +32,12 @@ namespace TodoList.Api.Controllers
         }
 
         [Route("")]
-        [HttpPost]
         public IHttpActionResult Post([FromBody] Item item)
         {
             return CreatedAtRoute("GetItem", new { id = item.Id}, item);
         }
 
         [Route("{id}")]
-        [HttpPut]
         public IHttpActionResult Put(int id, [FromBody] Item item)
         {
             if (FoundItem(id) == null)
@@ -52,7 +48,6 @@ namespace TodoList.Api.Controllers
         }
 
         [Route("{id}")]
-        [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
             if (FoundItem(id) == null)

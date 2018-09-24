@@ -29,7 +29,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var controller = new ItemsController();
 
-            var actionResult = controller.GetItem(1);
+            var actionResult = controller.Get(1);
             var contentResult = actionResult as OkNegotiatedContentResult<Item>;
 
             Assert.That(contentResult, Is.Not.Null);
@@ -43,7 +43,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var controller = new ItemsController();
 
-            var actionResult = controller.GetItem(5);
+            var actionResult = controller.Get(5);
             actionResult.ExecuteAsync(CancellationToken.None).Result.TryGetContentValue(out string content);
 
             Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
