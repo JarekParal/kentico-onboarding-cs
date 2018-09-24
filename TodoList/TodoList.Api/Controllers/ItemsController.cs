@@ -10,9 +10,9 @@ namespace TodoList.Api.Controllers
     public class ItemsController : ApiController
     {
         private static readonly Item[] s_items = {
-            new Item {Id = 1, Text = "Dog"},
-            new Item {Id = 2, Text = "Cat"},
-            new Item {Id = 3, Text = "Elephant"}
+            new Item {Id = new Guid("1BBA61A3-9DA6-4A28-8A12-F543BB5EA737"), Text = "Dog"},
+            new Item {Id = new Guid("BFA20109-F15E-4F5C-B395-2879E02BC422"), Text = "Cat"},
+            new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
         };
 
         [Route("")]
@@ -22,7 +22,7 @@ namespace TodoList.Api.Controllers
         }
 
         [Route("{id}", Name = "GetItem")]
-        public async Task<IHttpActionResult> GetAsync(int id)
+        public async Task<IHttpActionResult> GetAsync(Guid id)
         {
             return Ok(await Task.FromResult(s_items[0]));
         }
@@ -34,13 +34,13 @@ namespace TodoList.Api.Controllers
         }
 
         [Route("{id}")]
-        public async Task<IHttpActionResult> PutAsync(int id, [FromBody] Item item)
+        public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
         {
             return StatusCode(await Task.FromResult(HttpStatusCode.OK));
         }
 
         [Route("{id}")]
-        public async Task<IHttpActionResult> DeleteAsync(int id)
+        public async Task<IHttpActionResult> DeleteAsync(Guid id)
         {
             return StatusCode(await Task.FromResult(HttpStatusCode.NoContent));
         }
