@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TodoList.Api.Models;
 
@@ -14,33 +16,33 @@ namespace TodoList.Api.Controllers
         };
 
         [Route("")]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> GetAsync()
         {
-            return Ok(s_items);
+            return Ok(await Task.FromResult(s_items));
         }
 
         [Route("{id}", Name = "GetItem")]
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> GetAsync(int id)
         {
-            return Ok(s_items[0]);
+            return Ok(await Task.FromResult(s_items[0]));
         }
 
         [Route("")]
-        public IHttpActionResult Post([FromBody] Item item)
+        public async Task<IHttpActionResult> PostAsync([FromBody] Item item)
         {
-            return CreatedAtRoute("GetItem", new { id = item.Id }, item);
+            return Ok(await Task.FromResult(new Item {Id = item.Id, Text = item.Text}));
         }
 
         [Route("{id}")]
-        public IHttpActionResult Put(int id, [FromBody] Item item)
+        public async Task<IHttpActionResult> PutAsync(int id, [FromBody] Item item)
         {
-            return StatusCode(HttpStatusCode.OK);
+            return StatusCode(await Task.FromResult(HttpStatusCode.OK));
         }
 
         [Route("{id}")]
-        public IHttpActionResult Delete(int id)
+        public async Task<IHttpActionResult> DeleteAsync(int id)
         {
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(await Task.FromResult(HttpStatusCode.NoContent));
         }
     }
 }
