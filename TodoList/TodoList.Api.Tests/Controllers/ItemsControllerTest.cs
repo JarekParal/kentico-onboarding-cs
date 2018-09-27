@@ -81,7 +81,7 @@ namespace TodoList.Api.Tests.Controllers
             var actionResult = await _controller.PutAsync(id, new Item {Id = id, Text = "DogDog"});
             var contentResult = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
 
         [Test]

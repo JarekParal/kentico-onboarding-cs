@@ -30,7 +30,8 @@ namespace TodoList.Api.Controllers
 
         [Route("{id}")]
         public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
-            => StatusCode(await Task.FromResult(HttpStatusCode.OK));
+            => Created("http://localhost/api/v1/items/1", item);
+
 
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
