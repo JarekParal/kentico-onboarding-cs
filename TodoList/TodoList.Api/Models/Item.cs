@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TodoList.Api.Models
 {
@@ -6,5 +7,8 @@ namespace TodoList.Api.Models
     {
         public Guid Id { get; set; }
         public string Text { get; set; }
+
+        public override string ToString()
+            => $"{nameof(Id)}: {Id}, {nameof(Text)}: {Text}";
     }
 }
