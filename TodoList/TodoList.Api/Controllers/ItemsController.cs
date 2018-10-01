@@ -7,6 +7,7 @@ using TodoList.Api.Models;
 namespace TodoList.Api.Controllers
 {
     [RoutePrefix("api/v1/Items")]
+    [Route("")]
     public class ItemsController : ApiController
     {
         private static readonly Item[] s_items =
@@ -16,7 +17,6 @@ namespace TodoList.Api.Controllers
             new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
         };
 
-        [Route("")]
         public async Task<IHttpActionResult> GetAsync()
             => Ok(await Task.FromResult(s_items));
 
@@ -24,14 +24,12 @@ namespace TodoList.Api.Controllers
         public async Task<IHttpActionResult> GetAsync(Guid id)
             => Ok(await Task.FromResult(s_items[0]));
 
-        [Route("")]
         public async Task<IHttpActionResult> PostAsync([FromBody] Item item)
             => Ok(await Task.FromResult(new Item {Id = item.Id, Text = item.Text}));
 
         [Route("{id}")]
         public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
             => Created("http://localhost/api/v1/items/1", item);
-
 
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteAsync(Guid id)

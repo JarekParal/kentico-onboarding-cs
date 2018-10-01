@@ -59,6 +59,7 @@ namespace TodoList.Api.Tests.Controllers
             var contentResult = actionResult.ExecuteAsync(CancellationToken.None).Result;
             contentResult.TryGetContentValue<Item>(out var item);
 
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(item, Is.EqualTo(s_items[0]).Using(_compare));
         }
 
@@ -82,7 +83,7 @@ namespace TodoList.Api.Tests.Controllers
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(item, Is.EqualTo(s_catdog).Using(_compare));
+            Assert.That(item, Is.EqualTo(s_catdog).Using(_compare)); 
         }
 
         [Test]
