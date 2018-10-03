@@ -7,6 +7,7 @@ namespace TodoList.Api
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(RoutesConfig.Register);
+            GlobalConfiguration.Configure(JsonCamelCaseConfig.Configure);
         }
     }
 }
