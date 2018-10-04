@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Routing;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Models;
@@ -22,23 +23,35 @@ namespace TodoList.Api.Tests.Controllers
             new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
         };
 
-        private static readonly Item s_catdog = new Item { Id = new Guid("00000000-0000-0000-0000-000000000000"), Text = "CatDog" };
+        private static readonly Item s_catDog = new Item
+            {Id = new Guid("00000000-0000-0000-0000-000000000000"), Text = "CatDog"};
 
         [SetUp]
         public void SetUp()
         {
             _controller = new ItemsController
             {
-                Request = new HttpRequestMessage(),
+                Request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("http://localhost/" + ApiVersions.ApiV1 + "/items")
+                },
                 Configuration = new HttpConfiguration()
             };
+            _controller.Configuration.Routes.MapHttpRoute(
+                name: "GetItem",
+                routeTemplate: ApiVersions.ApiV1 + "/{controller}/{id}",
+                defaults: new {id = RouteParameter.Optional});
+
+            _controller.RequestContext.RouteData = new HttpRouteData(
+                route: new HttpRoute(),
+                values: new HttpRouteValueDictionary {{"controller", "items"}});
         }
 
         [Test]
         public async Task GetAsync_WithoutParams_ReturnsAllItems()
         {
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.GetAsync());
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.GetAsync());
             contentResult.TryGetContentValue<Item[]>(out var items);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -50,8 +63,8 @@ namespace TodoList.Api.Tests.Controllers
         {
             var id = s_items[0].Id;
 
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.GetAsync(id));
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.GetAsync(id));
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -63,24 +76,24 @@ namespace TodoList.Api.Tests.Controllers
         public async Task GetAsync_WithInvalidId_ReturnsNoItem()
         {
             var id = new Guid("5E73F108-97F6-4FFF-A15C-1A7AEDE686BA");
-            
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.GetAsync(id));
-            
+
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.GetAsync(id));
+
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
 
         [Test]
         public async Task PostAsync_AddOneItem_ReturnsAddedItem()
         {
-            var inputItem = new Item { Text = "CatDog" };
+            var inputItem = new Item {Text = "CatDog"};
 
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.PostAsync(inputItem));
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.PostAsync(inputItem));
             contentResult.TryGetContentValue<Item>(out var item);
 
-            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(item, Is.EqualTo(s_catdog).UsingItemCompare());
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(item, Is.EqualTo(s_catDog).UsingItemCompare());
         }
 
         [Test]
@@ -89,8 +102,8 @@ namespace TodoList.Api.Tests.Controllers
             var id = s_items[0].Id;
             var inputItem = new Item {Id = id, Text = "DogDog"};
 
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.PutAsync(id, inputItem));
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.PutAsync(id, inputItem));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
@@ -100,11 +113,11 @@ namespace TodoList.Api.Tests.Controllers
         public async Task PutAsync_AddNewItem_ReturnsStatusCodeCreated()
         {
             var id = new Guid("5E73F108-97F6-4FFF-A15C-1A7AEDE686BA");
-            var inputItem = new Item { Id = id, Text = "CatDogCat" };
+            var inputItem = new Item {Id = id, Text = "CatDogCat"};
 
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.PutAsync(id, inputItem));
-            
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.PutAsync(id, inputItem));
+
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
@@ -113,8 +126,8 @@ namespace TodoList.Api.Tests.Controllers
         {
             var id = s_items[0].Id;
 
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.DeleteAsync(id));
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.DeleteAsync(id));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
         }
@@ -125,8 +138,8 @@ namespace TodoList.Api.Tests.Controllers
         {
             var id = new Guid("1BBA61A3-9DA6-4A28-8A12-F543BB5EA737");
 
-            var contentResult = await _controller.
-                ExecuteAction(controller => controller.DeleteAsync(id));
+            var contentResult = await _controller
+                .ExecuteAction(controller => controller.DeleteAsync(id));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
