@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace TodoList.Api
