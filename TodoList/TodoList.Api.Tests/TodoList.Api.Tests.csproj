@@ -64,9 +64,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utils\ExtensionItemController.cs" />
-    <Compile Include="Utils\ExtensionItemCompare.cs" />
-    <Compile Include="Utils\ItemCompare.cs" />
+    <Compile Include="Extensions\ItemControllerExtension.cs" />
+    <Compile Include="Extensions\ExtensionItemCompare.cs" />
+    <Compile Include="Extensions\ItemComparer.cs" />
     <Compile Include="Controllers\ItemsControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

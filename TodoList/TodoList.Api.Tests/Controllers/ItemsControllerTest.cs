@@ -7,7 +7,7 @@ using System.Web.Http.Routing;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Models;
-using TodoList.Api.Tests.Utils;
+using TodoList.Api.Tests.Extensions;
 
 namespace TodoList.Api.Tests.Controllers
 {
@@ -38,13 +38,13 @@ namespace TodoList.Api.Tests.Controllers
                 Configuration = new HttpConfiguration()
             };
             _controller.Configuration.Routes.MapHttpRoute(
-                name: "GetItem",
-                routeTemplate: ApiVersions.ApiV1 + "/{controller}/{id}",
-                defaults: new {id = RouteParameter.Optional});
+                "GetItem",
+                ApiVersions.ApiV1 + "/{controller}/{id}",
+                new {id = RouteParameter.Optional});
 
             _controller.RequestContext.RouteData = new HttpRouteData(
-                route: new HttpRoute(),
-                values: new HttpRouteValueDictionary {{"controller", "items"}});
+                new HttpRoute(),
+                new HttpRouteValueDictionary {{"controller", "items"}});
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace TodoList.Api.Tests.Controllers
             contentResult.TryGetContentValue<Item[]>(out var items);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(items, Is.EqualTo(s_items).UsingItemCompare());
+            Assert.That(items, Is.EqualTo(s_items).UsingItemComparer());
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace TodoList.Api.Tests.Controllers
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(item, Is.EqualTo(s_items[0]).UsingItemCompare());
+            Assert.That(item, Is.EqualTo(s_items[0]).UsingItemComparer());
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace TodoList.Api.Tests.Controllers
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Assert.That(item, Is.EqualTo(s_catDog).UsingItemCompare());
+            Assert.That(item, Is.EqualTo(s_catDog).UsingItemComparer());
         }
 
         [Test]

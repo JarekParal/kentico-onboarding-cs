@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using TodoList.Api.Models;
 
-namespace TodoList.Api.Tests.Utils
+namespace TodoList.Api.Tests.Extensions
 {
-    public class ItemCompare : IEqualityComparer<Item>
+    public class ItemComparer : IEqualityComparer<Item>
     {
         public bool Equals(Item x, Item y)
         {
