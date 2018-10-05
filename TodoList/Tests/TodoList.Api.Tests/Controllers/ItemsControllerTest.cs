@@ -33,13 +33,13 @@ namespace TodoList.Api.Tests.Controllers
             {
                 Request = new HttpRequestMessage
                 {
-                    RequestUri = new Uri("http://localhost/" + ApiVersions.ApiV1 + "/items")
+                    RequestUri = new Uri("http://localhost/" + ApiVersions.V1 + "/items")
                 },
                 Configuration = new HttpConfiguration()
             };
             _controller.Configuration.Routes.MapHttpRoute(
                 "GetItem",
-                ApiVersions.ApiV1 + "/{controller}/{id}",
+                ApiVersions.V1 + "/{controller}/{id}",
                 new {id = RouteParameter.Optional});
 
             _controller.RequestContext.RouteData = new HttpRouteData(
