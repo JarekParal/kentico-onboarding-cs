@@ -5,9 +5,9 @@ namespace TodoList.Api.Tests.Extensions
 {
     public static class EqualConstraintExtensions
     {
+        private static readonly Lazy<ItemComparer> s_itemComparerLazy = new Lazy<ItemComparer>();
+
         public static EqualConstraint UsingItemComparer(this EqualConstraint equalConstraint)
-        {
-            return equalConstraint.Using(new ItemComparer());
-        }
+            => equalConstraint.Using(s_itemComparerLazy.Value);
     }
 }
