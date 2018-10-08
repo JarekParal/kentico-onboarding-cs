@@ -6,9 +6,12 @@ using TodoList.Api.Models;
 
 namespace TodoList.Api.Controllers
 {
-    [RoutePrefix(ApiVersions.V1 + "/Items")]
+    [RoutePrefix(ApiVersions.V1)]
+    [Route("Items")]
     public class ItemsController : ApiController
     {
+        private const string _getItemRouteName = "GetItem";
+
         private static readonly Item[] s_items =
         {
             new Item {Id = new Guid("1BBA61A3-9DA6-4A28-8A12-F543BB5EA737"), Text = "Dog"},
@@ -19,16 +22,16 @@ namespace TodoList.Api.Controllers
         public async Task<IHttpActionResult> GetAsync()
             => Ok(await Task.FromResult(s_items));
 
-        [Route("{id}", Name = "GetItem")]
+        [Route("{id}", Name = _getItemRouteName)]
         public async Task<IHttpActionResult> GetAsync(Guid id)
             => Ok(await Task.FromResult(s_items[0]));
 
         public async Task<IHttpActionResult> PostAsync([FromBody] Item item)
-            => await Task.FromResult(CreatedAtRoute("GetItem", new { id = item.Id }, item));
+            => await Task.FromResult(CreatedAtRoute(_getItemRouteName, new { id = item.Id }, item));
 
         [Route("{id}")]
         public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
-            => await Task.FromResult(CreatedAtRoute("GetItem", new { id = item.Id }, item));
+            => await Task.FromResult(Ok(s_items[0]));
 
 
         [Route("{id}")]

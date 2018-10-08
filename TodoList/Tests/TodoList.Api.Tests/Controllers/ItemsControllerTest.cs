@@ -105,7 +105,7 @@ namespace TodoList.Api.Tests.Controllers
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.PutAsync(id, inputItem));
 
-            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
