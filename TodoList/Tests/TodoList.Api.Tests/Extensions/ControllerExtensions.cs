@@ -8,9 +8,9 @@ namespace TodoList.Api.Tests.Extensions
 {
     public static class ControllerExtensions
     {
-        public static async Task<HttpResponseMessage> ExecuteAction<T>(
-            this T controller,
-            Func<T, Task<IHttpActionResult>> action)
+        public static async Task<HttpResponseMessage> ExecuteAction<TController>(
+            this TController controller,
+            Func<TController, Task<IHttpActionResult>> action) where TController : ApiController
         {
             var actionResult = await action(controller);
 

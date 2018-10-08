@@ -63,7 +63,7 @@
     <Compile Include="Controllers\ItemsControllerTest.cs" />
     <Compile Include="Extensions\ControllerExtensions.cs" />
     <Compile Include="Extensions\EqualConstraintExtensions.cs" />
-    <Compile Include="Extensions\ItemComparer.cs" />
+    <Compile Include="Comparers\ItemComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
