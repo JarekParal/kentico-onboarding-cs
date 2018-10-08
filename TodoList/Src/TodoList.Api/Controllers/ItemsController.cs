@@ -6,7 +6,7 @@ using TodoList.Api.Models;
 
 namespace TodoList.Api.Controllers
 {
-    [RoutePrefix(ApiVersions.V1)]
+    [RoutePrefix(ApiRoutes.V1)]
     [Route("Items")]
     public class ItemsController : ApiController
     {
