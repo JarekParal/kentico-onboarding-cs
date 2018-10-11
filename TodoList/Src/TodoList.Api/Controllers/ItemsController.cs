@@ -3,11 +3,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TodoList.Api.Models;
+using TodoList.Api.Routes;
 
 namespace TodoList.Api.Controllers
 {
-    [RoutePrefix(ApiRoutes.V1)]
-    [Route("Items")]
+    [RoutePrefixController(ApiVersion.v1, nameof(ItemsController))]
+    [Route("")]
     public class ItemsController : ApiController
     {
         private const string _getItemRouteName = "GetItem";
