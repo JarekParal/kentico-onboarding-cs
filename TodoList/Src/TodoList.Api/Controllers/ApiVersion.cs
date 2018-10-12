@@ -2,6 +2,6 @@
 {
     public enum ApiVersion
     {
-        v1
+        V1
     }
 }

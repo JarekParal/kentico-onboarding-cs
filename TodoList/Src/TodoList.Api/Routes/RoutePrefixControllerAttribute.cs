@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using TodoList.Api.Controllers;
 
@@ -24,17 +22,19 @@ namespace TodoList.Api.Routes
                 throw new ArgumentNullException(nameof(controllerName));
             }
 
-            return CombinePrefix(_apiRoot, apiVersion, controllerName);
+            var apiVersionName = GetApiVersionName(apiVersion);
+            var extractedControllerName = ExtractControllerName(controllerName);
+
+            return Combine(_apiRoot, apiVersionName, extractedControllerName);
         }
 
-        private static string CombinePrefix(string apiRoot, ApiVersion apiVersion, string controllerName)
-            => Path.Combine(apiRoot, ConvertApiVersion(apiVersion), ExtractControllerName(controllerName))
-                .Replace("\\", "/");
+        private static string Combine(params string[] parts)
+            => Path.Combine(parts).Replace("\\", "/");
 
-        private static string ConvertApiVersion(ApiVersion apiVersion)
+        private static string GetApiVersionName(ApiVersion apiVersion)
             => Enum.GetName(typeof(ApiVersion), apiVersion);
 
         private static string ExtractControllerName(string controllerName)
-            => controllerName.Replace("Controller", "");
+            => controllerName.Replace("Controller", string.Empty);
     }
 }
