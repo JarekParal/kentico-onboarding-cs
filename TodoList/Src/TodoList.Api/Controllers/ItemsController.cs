@@ -2,8 +2,9 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using TodoList.Api.Models;
 using TodoList.Api.Routes;
+using TodoList.Contracts.Models;
+using TodoList.Repository;
 
 namespace TodoList.Api.Controllers
 {
@@ -13,30 +14,33 @@ namespace TodoList.Api.Controllers
     {
         private const string _getItemRouteName = "GetItem";
 
-        private static readonly Item[] s_items =
+        private readonly IItemRepository _repository;
+
+        public ItemsController(IItemRepository itemRepository)
         {
-            new Item {Id = new Guid("1BBA61A3-9DA6-4A28-8A12-F543BB5EA737"), Text = "Dog"},
-            new Item {Id = new Guid("BFA20109-F15E-4F5C-B395-2879E02BC422"), Text = "Cat"},
-            new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
-        };
+            _repository = itemRepository;
+        }
 
         public async Task<IHttpActionResult> GetAsync()
-            => Ok(await Task.FromResult(s_items));
+            => Ok(await Task.FromResult(_repository.GetAll()));
 
         [Route("{id}", Name = _getItemRouteName)]
         public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await Task.FromResult(s_items[0]));
+            => Ok(await Task.FromResult(_repository.Get(id)));
 
         public async Task<IHttpActionResult> PostAsync([FromBody] Item item)
             => await Task.FromResult(CreatedAtRoute(_getItemRouteName, new { id = item.Id }, item));
 
         [Route("{id}")]
         public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
-            => await Task.FromResult(Ok(s_items[0]));
+            => await Task.FromResult(Ok(_repository.Get(id)));
 
 
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
-            => StatusCode(await Task.FromResult(HttpStatusCode.NoContent));
+        {
+            _repository.Delete(id);
+            return StatusCode(await Task.FromResult(HttpStatusCode.NoContent));
+        }
     }
 }

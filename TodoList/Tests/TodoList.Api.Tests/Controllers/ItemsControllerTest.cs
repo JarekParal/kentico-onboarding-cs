@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
-using TodoList.Api.Models;
 using TodoList.Api.Tests.Extensions;
+using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Tests.Controllers
 {

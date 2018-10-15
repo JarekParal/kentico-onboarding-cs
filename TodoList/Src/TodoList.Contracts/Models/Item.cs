@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TodoList.Api.Models
+namespace TodoList.Contracts.Models
 {
     public class Item
     {
