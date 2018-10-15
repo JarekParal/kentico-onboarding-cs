@@ -77,6 +77,14 @@
       <Project>{27343B89-6CB8-4B9E-8B03-9BE4BD6F4FB0}</Project>
       <Name>TodoList.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Src\TodoList.Contracts\TodoList.Contracts.csproj">
+      <Project>{057917A1-9E0B-456A-9F15-8E75EA94FD17}</Project>
+      <Name>TodoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\TodoList.Repository\TodoList.Repository.csproj">
+      <Project>{43B739AB-E525-4551-842B-AFBE8214D105}</Project>
+      <Name>TodoList.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
