@@ -3,10 +3,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
-using TodoList.Api.Models;
 using TodoList.Api.Tests.Extensions;
+using TodoList.Contracts.Models;
+using TodoList.Repository;
 
 namespace TodoList.Api.Tests.Controllers
 {
@@ -14,6 +16,7 @@ namespace TodoList.Api.Tests.Controllers
     public class ItemsControllerTest
     {
         private ItemsController _controller;
+        private IItemRepository _repository;
 
         private static readonly Item[] s_items =
         {
@@ -25,10 +28,12 @@ namespace TodoList.Api.Tests.Controllers
         private static readonly Item s_catDog = new Item
             {Id = new Guid("00000000-0000-0000-0000-000000000000"), Text = "CatDog"};
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
-            _controller = new ItemsController
+            _repository = Substitute.For<IItemRepository>();
+
+            _controller = new ItemsController(_repository)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -42,8 +47,10 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task GetAsync_WithoutParams_ReturnsAllItems()
         {
+            _repository.GetAllItemsAsync().Returns(s_items);
+
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.GetAsync());
+                .ExecuteAction(controller => controller.GetItemsAsync());
             contentResult.TryGetContentValue<Item[]>(out var items);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -54,9 +61,10 @@ namespace TodoList.Api.Tests.Controllers
         public async Task GetAsync_WithValidId_ReturnsOneItem()
         {
             var id = s_items[0].Id;
+            _repository.GetItemAsync(id).Returns(s_items[0]);
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.GetAsync(id));
+                .ExecuteAction(controller => controller.GetItemAsync(id));
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -70,7 +78,7 @@ namespace TodoList.Api.Tests.Controllers
             var id = new Guid("5E73F108-97F6-4FFF-A15C-1A7AEDE686BA");
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.GetAsync(id));
+                .ExecuteAction(controller => controller.GetItemAsync(id));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
@@ -78,17 +86,16 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task PostAsync_AddOneItem_ReturnsAddedItem()
         {
-            var inputItem = new Item {Text = "CatDog"};
+            _repository.AddItemAsync(s_catDog).Returns(s_items[0]);
             _controller.Request.RequestUri = new Uri("http://location/items");
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.PostAsync(inputItem));
+                .ExecuteAction(controller => controller.PostItemAsync(s_catDog));
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Assert.That(contentResult.Headers.Location.ToString(), 
-                Is.EqualTo($"http://location/objects/{inputItem.Id}/CreatedPath"));
-            Assert.That(item, Is.EqualTo(s_catDog).UsingItemComparer());
+            Assert.That(contentResult.Headers.Location.ToString(),
+                Is.EqualTo($"http://location/objects/{s_items[0].Id}/CreatedPath"));
         }
 
         [Test]
@@ -96,11 +103,14 @@ namespace TodoList.Api.Tests.Controllers
         {
             var id = s_items[0].Id;
             var inputItem = new Item {Id = id, Text = "DogDog"};
+            _repository.EditItemAsync(inputItem).Returns(s_items[0]);
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.PutAsync(id, inputItem));
+                .ExecuteAction(controller => controller.PutItemAsync(id, inputItem));
+            contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(item, Is.EqualTo(s_items[0]));
         }
 
         [Test]
@@ -111,7 +121,7 @@ namespace TodoList.Api.Tests.Controllers
             var inputItem = new Item {Id = id, Text = "CatDogCat"};
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.PutAsync(id, inputItem));
+                .ExecuteAction(controller => controller.PutItemAsync(id, inputItem));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
@@ -122,9 +132,10 @@ namespace TodoList.Api.Tests.Controllers
             var id = s_items[0].Id;
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.DeleteAsync(id));
+                .ExecuteAction(controller => controller.DeleteItemAsync(id));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            await _repository.Received(1).DeleteItemAsync(id);
         }
 
         [Test]
@@ -134,7 +145,7 @@ namespace TodoList.Api.Tests.Controllers
             var id = new Guid("1BBA61A3-9DA6-4A28-8A12-F543BB5EA737");
 
             var contentResult = await _controller
-                .ExecuteAction(controller => controller.DeleteAsync(id));
+                .ExecuteAction(controller => controller.DeleteItemAsync(id));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }

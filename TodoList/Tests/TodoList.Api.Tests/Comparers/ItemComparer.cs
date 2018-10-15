@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TodoList.Api.Models;
+using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Tests.Comparers
 {
