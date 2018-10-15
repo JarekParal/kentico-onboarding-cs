@@ -7,7 +7,7 @@ using TodoList.Api.Routes;
 
 namespace TodoList.Api.Controllers
 {
-    [RoutePrefixController(ApiVersion.v1, nameof(ItemsController))]
+    [RoutePrefixController(ApiVersion.V1, nameof(ItemsController))]
     [Route("")]
     public class ItemsController : ApiController
     {

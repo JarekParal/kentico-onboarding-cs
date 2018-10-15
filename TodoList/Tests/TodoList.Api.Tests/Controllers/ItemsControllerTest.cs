@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Models;
@@ -31,20 +30,13 @@ namespace TodoList.Api.Tests.Controllers
         {
             _controller = new ItemsController
             {
-                Request = new HttpRequestMessage
-                {
-                    RequestUri = new Uri("http://localhost/" + ApiVersion.V1 + "/items")
-                },
+                Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
             };
             _controller.Configuration.Routes.MapHttpRoute(
                 "GetItem",
-                ApiVersion.V1 + "/{controller}/{id}",
+                "objects/{id}/CreatedPath",
                 new {id = RouteParameter.Optional});
-
-            _controller.RequestContext.RouteData = new HttpRouteData(
-                new HttpRoute(),
-                new HttpRouteValueDictionary {{"controller", "items"}});
         }
 
         [Test]
@@ -87,12 +79,15 @@ namespace TodoList.Api.Tests.Controllers
         public async Task PostAsync_AddOneItem_ReturnsAddedItem()
         {
             var inputItem = new Item {Text = "CatDog"};
+            _controller.Request.RequestUri = new Uri("http://location/items");
 
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.PostAsync(inputItem));
             contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(contentResult.Headers.Location.ToString(), 
+                Is.EqualTo($"http://location/objects/{inputItem.Id}/CreatedPath"));
             Assert.That(item, Is.EqualTo(s_catDog).UsingItemComparer());
         }
 
