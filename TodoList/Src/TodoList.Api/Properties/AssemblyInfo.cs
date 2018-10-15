@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TodoList.Api")]
-[assembly: AssemblyDescription("REST api for TodoList app.")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("KenticoAcademy")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TodoList.Api")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
@@ -20,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("01479ec7-4708-4a7f-8d9b-c053c7217bfc")]
+[assembly: Guid("27343b89-6cb8-4b9e-8b03-9be4bd6f4fb0")]
 
 // Version information for an assembly consists of the following four values:
 //
