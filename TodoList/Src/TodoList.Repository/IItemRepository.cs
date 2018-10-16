@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 
 namespace TodoList.Repository
 {
     public interface IItemRepository
     {
-        IEnumerable<Item> GetAll();
-        Item Get(Guid id);
-        void Add(Item item);
-        void Edit(Item item);
-        void Delete(Guid id);
+        Task<IEnumerable<Item>> GetAllAsync();
+        Task<Item> GetAsync(Guid id);
+        Task<Item> AddAsync(Item item);
+        Task<Item> EditAsync(Item item);
+        Task DeleteAsync(Guid id);
     }
 }

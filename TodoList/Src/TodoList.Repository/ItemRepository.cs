@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 
 namespace TodoList.Repository
@@ -13,20 +14,19 @@ namespace TodoList.Repository
             new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
         };
 
-        public IEnumerable<Item> GetAll()
-        {
-            return s_items;
-        }
+        public async Task<IEnumerable<Item>> GetAllAsync() 
+            => await Task.FromResult(s_items);
 
-        public Item Get(Guid id)
-        {
-            return s_items[0];
-        }
+        public async Task<Item> GetAsync(Guid id) 
+            => await Task.FromResult(s_items[0]);
 
-        public void Add(Item item) { }
+        public async Task<Item> AddAsync(Item item) 
+            => await Task.FromResult(s_items[0]);
 
-        public void Edit(Item item) { }
+        public async Task<Item> EditAsync(Item item)
+            => await Task.FromResult(s_items[0]);
 
-        public void Delete(Guid id) { }
+        public async Task DeleteAsync(Guid id) 
+            => await Task.CompletedTask;
     }
 }
