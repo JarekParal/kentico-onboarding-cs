@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Tests.Extensions;
@@ -26,11 +27,22 @@ namespace TodoList.Api.Tests.Controllers
         private static readonly Item s_catDog = new Item
             {Id = new Guid("00000000-0000-0000-0000-000000000000"), Text = "CatDog"};
 
+        private static IItemRepository CreateSubstituteOfItemRepository()
+        {
+            var repository = Substitute.For<IItemRepository>();
+            repository.GetAllAsync().Returns(s_items);
+            repository.GetAsync(Arg.Any<Guid>()).Returns(s_items[0]);
+            repository.AddAsync(Arg.Any<Item>()).Returns(s_items[0]);
+            repository.EditAsync(Arg.Any<Item>()).Returns(s_items[0]);
+            return repository;
+        }
+
         [SetUp]
         public void SetUp()
         {
-            ItemRepository itemRepository = new ItemRepository();
-            _controller = new ItemsController(itemRepository)
+            var repository = CreateSubstituteOfItemRepository();
+
+            _controller = new ItemsController(repository)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -99,8 +111,10 @@ namespace TodoList.Api.Tests.Controllers
 
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.PutAsync(id, inputItem));
+            contentResult.TryGetContentValue<Item>(out var item);
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(item, Is.EqualTo(s_items[0]));
         }
 
         [Test]
