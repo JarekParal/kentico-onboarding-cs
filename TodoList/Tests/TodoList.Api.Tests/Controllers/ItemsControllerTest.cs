@@ -16,6 +16,7 @@ namespace TodoList.Api.Tests.Controllers
     public class ItemsControllerTest
     {
         private ItemsController _controller;
+        private IItemRepository _repository;
 
         private static readonly Item[] s_items =
         {
@@ -27,22 +28,12 @@ namespace TodoList.Api.Tests.Controllers
         private static readonly Item s_catDog = new Item
             {Id = new Guid("00000000-0000-0000-0000-000000000000"), Text = "CatDog"};
 
-        private static IItemRepository CreateSubstituteOfItemRepository()
-        {
-            var repository = Substitute.For<IItemRepository>();
-            repository.GetAllAsync().Returns(s_items);
-            repository.GetAsync(Arg.Any<Guid>()).Returns(s_items[0]);
-            repository.AddAsync(Arg.Any<Item>()).Returns(s_items[0]);
-            repository.EditAsync(Arg.Any<Item>()).Returns(s_items[0]);
-            return repository;
-        }
-
         [SetUp]
         public void SetUp()
         {
-            var repository = CreateSubstituteOfItemRepository();
+            _repository = Substitute.For<IItemRepository>();
 
-            _controller = new ItemsController(repository)
+            _controller = new ItemsController(_repository)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -56,6 +47,8 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task GetAsync_WithoutParams_ReturnsAllItems()
         {
+            _repository.GetAllAsync().Returns(s_items);
+
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.GetAsync());
             contentResult.TryGetContentValue<Item[]>(out var items);
@@ -67,6 +60,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task GetAsync_WithValidId_ReturnsOneItem()
         {
+            _repository.GetAsync(Arg.Any<Guid>()).Returns(s_items[0]);
             var id = s_items[0].Id;
 
             var contentResult = await _controller
@@ -92,6 +86,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task PostAsync_AddOneItem_ReturnsAddedItem()
         {
+            _repository.AddAsync(Arg.Any<Item>()).Returns(s_items[0]);
             _controller.Request.RequestUri = new Uri("http://location/items");
 
             var contentResult = await _controller
@@ -106,6 +101,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task PutAsync_EditExistingItem_ReturnsStatusCodeOk()
         {
+            _repository.EditAsync(Arg.Any<Item>()).Returns(s_items[0]);
             var id = s_items[0].Id;
             var inputItem = new Item {Id = id, Text = "DogDog"};
 
