@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
-using TodoList.Contracts.Unity;
-using Unity;
+using TodoList.DI;
 using TodoList.Repository;
 
 namespace TodoList.Api
@@ -9,9 +8,9 @@ namespace TodoList.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            var container = new UnityContainer();
-            container.RegisterType<IItemRepository, ItemRepository>();
-            config.DependencyResolver = new UnityResolver(container);
+            var configDependencyResolver = new DependencyResolver();
+            configDependencyResolver.Container.RegisterType<IItemRepository, ItemRepository>();
+            config.DependencyResolver = configDependencyResolver;
         }
     }
 }

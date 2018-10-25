@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
-using Unity;
+using TodoList.Contracts;
 using Unity.Exceptions;
 
-namespace TodoList.Contracts.Unity
+namespace TodoList.DI
 {
-    public class UnityResolver : IDependencyResolver
+    public class DependencyResolver : IDependencyResolver, IDependencyResolverContainer
     {
-        protected IUnityContainer Container;
-
-        public UnityResolver(IUnityContainer container)
+        public DependencyResolver()
         {
-            Container = container ?? throw new ArgumentNullException(nameof(container));
+            Container = new TodoListContainer();
         }
+
+        private DependencyResolver(ITodoListContainer todoListContainer)
+        {
+            Container = todoListContainer;
+        }
+
+        public ITodoListContainer Container { get; }
 
         public object GetService(Type serviceType)
         {
@@ -42,7 +47,7 @@ namespace TodoList.Contracts.Unity
         public IDependencyScope BeginScope()
         {
             var child = Container.CreateChildContainer();
-            return new UnityResolver(child);
+            return new DependencyResolver(child);
         }
 
         public void Dispose()
