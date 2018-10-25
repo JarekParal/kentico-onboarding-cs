@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
-using TodoList.Contracts.Unity;
 using Unity;
 using TodoList.Repository;
+using TodoList.DI.Unity;
 
 namespace TodoList.Api
 {
