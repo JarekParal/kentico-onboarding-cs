@@ -5,7 +5,7 @@ namespace TodoList.Contracts.DI
 {
     public interface ITodoListContainer : IDisposable
     {
-        ITodoListContainer RegisterType<TTypeFrom, TTypeTo>() 
+        ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(ContainerLifetimeEnum lifetimeEnum)
             where TTypeTo : TTypeFrom;
 
         object Resolve(Type type);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TodoList.Contracts.DI;
 using Unity;
+using Unity.Lifetime;
 
 namespace TodoList.DI
 {
@@ -19,10 +20,11 @@ namespace TodoList.DI
             _container = container;
         }
 
-        public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>()
+        public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(ContainerLifetimeEnum lifetimeEnum)
             where TTypeTo : TTypeFrom
         {
-            _container.RegisterType<TTypeFrom, TTypeTo>();
+            var lifetimeManager = GetLifetimeManager(lifetimeEnum);
+            _container.RegisterType<TTypeFrom, TTypeTo>(lifetimeManager);
             return this;
         }
 
@@ -45,6 +47,27 @@ namespace TodoList.DI
         public void Dispose()
         {
             _container.Dispose();
+        }
+
+        private static LifetimeManager GetLifetimeManager(ContainerLifetimeEnum lifetimeEnum)
+        {
+            switch (lifetimeEnum)
+            {
+                case ContainerLifetimeEnum.TransientLifetimeManager:
+                    return new TransientLifetimeManager();
+                case ContainerLifetimeEnum.ContainerControlledLifetimeManager:
+                    return new ContainerControlledLifetimeManager();
+                case ContainerLifetimeEnum.HierarchicalLifetimeManager:
+                    return new HierarchicalLifetimeManager();
+                case ContainerLifetimeEnum.PerResolveLifetimeManager:
+                    return new PerResolveLifetimeManager();
+                case ContainerLifetimeEnum.PerThreadLifetimeManager:
+                    return new PerThreadLifetimeManager();
+                case ContainerLifetimeEnum.ExternallyControlledLifetimeManager:
+                    return new ExternallyControlledLifetimeManager();
+                default:
+                    return new TransientLifetimeManager();
+            }
         }
     }
 }
