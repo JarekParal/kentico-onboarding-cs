@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using TodoList.Contracts;
 using Unity;
-using Unity.Exceptions;
 
 namespace TodoList.DI
 {
-    public class TodoListContainer : ITodoListContainer
+    internal class TodoListContainer : ITodoListContainer
     {
         private readonly IUnityContainer _container;
 
@@ -20,7 +19,6 @@ namespace TodoList.DI
             _container = container;
         }
 
-
         public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>()
             where TTypeTo : TTypeFrom
         {
@@ -30,26 +28,12 @@ namespace TodoList.DI
 
         public object Resolve(Type type)
         {
-            try
-            {
-                return _container.Resolve(type);
-            }
-            catch (global::Unity.Exceptions.ResolutionFailedException)
-            {
-                throw new ResolutionFailedException();
-            }
+            return _container.Resolve(type);
         }
 
         public IEnumerable<object> ResolveAll(Type type)
         {
-            try
-            {
-                return _container.ResolveAll(type);
-            }
-            catch (global::Unity.Exceptions.ResolutionFailedException)
-            {
-                throw new ResolutionFailedException();
-            }
+            return _container.ResolveAll(type);
         }
 
         public ITodoListContainer CreateChildContainer()
@@ -61,21 +45,6 @@ namespace TodoList.DI
         public void Dispose()
         {
             _container.Dispose();
-        }
-
-        public class ResolutionFailedException : Exception
-        {
-            public ResolutionFailedException()
-            {
-            }
-
-            public ResolutionFailedException(string message) : base(message)
-            {
-            }
-
-            public ResolutionFailedException(string message, Exception innerException) : base(message, innerException)
-            {
-            }
         }
     }
 }
