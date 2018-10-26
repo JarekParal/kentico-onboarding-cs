@@ -78,7 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DI\IDependencyResolverContainer.cs" />
+    <Compile Include="DI\IBootstrapper.cs" />
     <Compile Include="DI\ITodoListContainer.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

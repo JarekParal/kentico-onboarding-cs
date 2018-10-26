@@ -9,7 +9,10 @@ namespace TodoList.Api
         public static void Register(HttpConfiguration config)
         {
             var configDependencyResolver = new DependencyResolver();
-            configDependencyResolver.Container.RegisterType<IItemRepository, ItemRepository>();
+
+            var todoListContainer = configDependencyResolver.Container;
+            new RepositoryBootstrapper().Register(todoListContainer);
+
             config.DependencyResolver = configDependencyResolver;
         }
     }

@@ -6,7 +6,7 @@ using Unity.Exceptions;
 
 namespace TodoList.DI
 {
-    public class DependencyResolver : IDependencyResolver, IDependencyResolverContainer
+    public class DependencyResolver : IDependencyResolver
     {
         public DependencyResolver()
         {

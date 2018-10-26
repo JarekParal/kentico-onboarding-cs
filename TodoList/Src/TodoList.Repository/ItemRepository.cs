@@ -5,7 +5,7 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Repository
 {
-    public class ItemRepository : IItemRepository
+    internal class ItemRepository : IItemRepository
     {
         private static readonly Item[] s_items =
         {
