@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using TodoList.Api.Routes;
 using TodoList.Contracts.Models;
-using TodoList.Repository;
+using TodoList.Contracts.Repository;
 
 namespace TodoList.Api.Controllers
 {

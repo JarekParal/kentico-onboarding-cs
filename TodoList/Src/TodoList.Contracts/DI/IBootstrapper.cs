@@ -1,4 +1,4 @@
-﻿namespace TodoList.Contracts
+﻿namespace TodoList.Contracts.DI
 {
     public interface IBootstrapper
     {

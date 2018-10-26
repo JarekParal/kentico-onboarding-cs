@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TodoList.Contracts
+namespace TodoList.Contracts.DI
 {
     public interface ITodoListContainer : IDisposable
     {

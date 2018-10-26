@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
-using TodoList.Contracts;
+using TodoList.Contracts.DI;
 using Unity.Exceptions;
 
 namespace TodoList.DI

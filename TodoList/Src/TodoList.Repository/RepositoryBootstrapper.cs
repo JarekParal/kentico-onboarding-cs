@@ -1,4 +1,5 @@
-﻿using TodoList.Contracts;
+﻿using TodoList.Contracts.DI;
+using TodoList.Contracts.Repository;
 
 namespace TodoList.Repository
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TodoList.Contracts;
+using TodoList.Contracts.DI;
 using Unity;
 
 namespace TodoList.DI

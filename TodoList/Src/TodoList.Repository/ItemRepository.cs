@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TodoList.Contracts.Models;
+using TodoList.Contracts.Repository;
 
 namespace TodoList.Repository
 {
