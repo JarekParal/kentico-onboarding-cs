@@ -8,46 +8,35 @@ namespace TodoList.DI
 {
     internal class TodoListContainer : ITodoListContainer
     {
-        private readonly IUnityContainer _container;
+        internal readonly IUnityContainer Container;
 
         public TodoListContainer()
-        {
-            _container = new UnityContainer();
-        }
+            => Container = new UnityContainer();
 
         private TodoListContainer(IUnityContainer container)
-        {
-            _container = container;
-        }
+            => Container = container;
 
         public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(ContainerLifetimeEnum lifetimeEnum)
             where TTypeTo : TTypeFrom
         {
             var lifetimeManager = GetLifetimeManager(lifetimeEnum);
-            _container.RegisterType<TTypeFrom, TTypeTo>(lifetimeManager);
+            Container.RegisterType<TTypeFrom, TTypeTo>(lifetimeManager);
             return this;
         }
 
         public object Resolve(Type type)
-        {
-            return _container.Resolve(type);
-        }
+            => Container.Resolve(type);
 
         public IEnumerable<object> ResolveAll(Type type)
-        {
-            return _container.ResolveAll(type);
-        }
+            => Container.ResolveAll(type);
 
         public ITodoListContainer CreateChildContainer()
         {
-            var newChildContainer = _container.CreateChildContainer();
+            var newChildContainer = Container.CreateChildContainer();
             return new TodoListContainer(newChildContainer);
         }
 
-        public void Dispose()
-        {
-            _container.Dispose();
-        }
+        public void Dispose() => Container.Dispose();
 
         private static LifetimeManager GetLifetimeManager(ContainerLifetimeEnum lifetimeEnum)
         {
@@ -66,7 +55,8 @@ namespace TodoList.DI
                 case ContainerLifetimeEnum.ExternallyControlledLifetimeManager:
                     return new ExternallyControlledLifetimeManager();
                 default:
-                    return new TransientLifetimeManager();
+                    // TODO: is it OK this default? This is the same behavior as has without parametric constructor of the Unity Container.
+                    return new TransientLifetimeManager(); 
             }
         }
     }
