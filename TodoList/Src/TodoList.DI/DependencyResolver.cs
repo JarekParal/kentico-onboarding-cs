@@ -8,17 +8,13 @@ namespace TodoList.DI
 {
     public class DependencyResolver : IDependencyResolver
     {
+        public ITodoListContainer Container { get; }
+
         public DependencyResolver()
-        {
-            Container = new TodoListContainer();
-        }
+            => Container = new TodoListContainer();
 
         private DependencyResolver(ITodoListContainer todoListContainer)
-        {
-            Container = todoListContainer;
-        }
-
-        public ITodoListContainer Container { get; }
+            => Container = todoListContainer;
 
         public object GetService(Type serviceType)
         {
@@ -51,13 +47,9 @@ namespace TodoList.DI
         }
 
         public void Dispose()
-        {
-            Dispose(true);
-        }
+            => Dispose(true);
 
         protected virtual void Dispose(bool disposing)
-        {
-            Container.Dispose();
-        }
+            => Container.Dispose();
     }
 }
