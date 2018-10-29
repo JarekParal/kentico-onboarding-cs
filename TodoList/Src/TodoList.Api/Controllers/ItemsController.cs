@@ -35,7 +35,7 @@ namespace TodoList.Api.Controllers
         }
 
         [Route("{id}")]
-        public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item) 
+        public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
             => Ok(await _repository.EditAsync(item));
 
         [Route("{id}")]

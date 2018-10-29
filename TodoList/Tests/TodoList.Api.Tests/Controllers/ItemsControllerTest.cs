@@ -60,8 +60,8 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task GetAsync_WithValidId_ReturnsOneItem()
         {
-            _repository.GetAsync(Arg.Any<Guid>()).Returns(s_items[0]);
             var id = s_items[0].Id;
+            _repository.GetAsync(id).Returns(s_items[0]);
 
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.GetAsync(id));
@@ -86,7 +86,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task PostAsync_AddOneItem_ReturnsAddedItem()
         {
-            _repository.AddAsync(Arg.Any<Item>()).Returns(s_items[0]);
+            _repository.AddAsync(s_catDog).Returns(s_items[0]);
             _controller.Request.RequestUri = new Uri("http://location/items");
 
             var contentResult = await _controller
@@ -101,9 +101,9 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public async Task PutAsync_EditExistingItem_ReturnsStatusCodeOk()
         {
-            _repository.EditAsync(Arg.Any<Item>()).Returns(s_items[0]);
             var id = s_items[0].Id;
             var inputItem = new Item {Id = id, Text = "DogDog"};
+            _repository.EditAsync(inputItem).Returns(s_items[0]);
 
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.PutAsync(id, inputItem));
@@ -135,6 +135,7 @@ namespace TodoList.Api.Tests.Controllers
                 .ExecuteAction(controller => controller.DeleteAsync(id));
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            await _repository.Received(1).DeleteAsync(id);
         }
 
         [Test]
