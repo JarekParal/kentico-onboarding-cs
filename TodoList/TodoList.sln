@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Contracts", "Src\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.DI", "Src\TodoList.DI\TodoList.DI.csproj", "{DBFEC266-216F-45D5-8067-6088E3316123}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api.Services", "Src\TodoList.Api.Services\TodoList.Api.Services.csproj", "{0B7D9914-8276-4A28-AF39-487A3908837B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{DBFEC266-216F-45D5-8067-6088E3316123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBFEC266-216F-45D5-8067-6088E3316123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBFEC266-216F-45D5-8067-6088E3316123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{43B739AB-E525-4551-842B-AFBE8214D105} = {D08B652E-B98B-473A-AC59-390AB952250C}
 		{057917A1-9E0B-456A-9F15-8E75EA94FD17} = {D08B652E-B98B-473A-AC59-390AB952250C}
 		{DBFEC266-216F-45D5-8067-6088E3316123} = {D08B652E-B98B-473A-AC59-390AB952250C}
+		{0B7D9914-8276-4A28-AF39-487A3908837B} = {D08B652E-B98B-473A-AC59-390AB952250C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A0C7BC2-9D66-42B8-BD1D-E6CAC0459A24}

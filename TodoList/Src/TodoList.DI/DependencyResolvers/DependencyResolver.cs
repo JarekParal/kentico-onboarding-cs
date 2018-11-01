@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 using TodoList.Contracts.DI;
+using TodoList.DI.Containers;
 using Unity.Exceptions;
 
-namespace TodoList.DI
+namespace TodoList.DI.DependencyResolvers
 {
     public class DependencyResolver : IDependencyResolver
     {

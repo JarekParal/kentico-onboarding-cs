@@ -7,6 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Tests.Extensions;
+using TodoList.Contracts.Api.Services;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repository;
 
@@ -17,6 +18,7 @@ namespace TodoList.Api.Tests.Controllers
     {
         private ItemsController _controller;
         private IItemRepository _repository;
+        private ITodoListUrlHelper _urlHelper;
 
         private static readonly Item[] s_items =
         {
@@ -32,8 +34,9 @@ namespace TodoList.Api.Tests.Controllers
         public void SetUp()
         {
             _repository = Substitute.For<IItemRepository>();
+            _urlHelper = Substitute.For<ITodoListUrlHelper>();
 
-            _controller = new ItemsController(_repository)
+            _controller = new ItemsController(_repository, _urlHelper)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -87,7 +90,8 @@ namespace TodoList.Api.Tests.Controllers
         public async Task PostAsync_AddOneItem_ReturnsAddedItem()
         {
             _repository.AddAsync(s_catDog).Returns(s_items[0]);
-            _controller.Request.RequestUri = new Uri("http://location/items");
+            var uriString = $"http://location/objects/{s_items[0].Id}/CreatedPath";
+            _urlHelper.Link(Arg.Any<Guid>()).Returns(new Uri(uriString));
 
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.PostAsync(s_catDog));
@@ -95,7 +99,7 @@ namespace TodoList.Api.Tests.Controllers
 
             Assert.That(contentResult.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(contentResult.Headers.Location.ToString(),
-                Is.EqualTo($"http://location/objects/{s_items[0].Id}/CreatedPath"));
+                Is.EqualTo(uriString));
         }
 
         [Test]

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using TodoList.Contracts.DI;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 
-namespace TodoList.DI
+namespace TodoList.DI.Containers
 {
     internal class TodoListContainer : ITodoListContainer
     {
@@ -24,6 +25,14 @@ namespace TodoList.DI
             return this;
         }
 
+        public ITodoListContainer RegisterType<TTypeTo>(ContainerLifetimeEnum lifetimeEnum,
+            Func<object> factoryFunc)
+        {
+            var lifetimeManager = GetLifetimeManager(lifetimeEnum);
+            Container.RegisterType<TTypeTo>(lifetimeManager, new InjectionFactory(_ => factoryFunc()));
+            return this;
+        }
+
         public object Resolve(Type type)
             => Container.Resolve(type);
 
@@ -36,7 +45,8 @@ namespace TodoList.DI
             return new TodoListContainer(newChildContainer);
         }
 
-        public void Dispose() => Container.Dispose();
+        public void Dispose()
+            => Container.Dispose();
 
         private static LifetimeManager GetLifetimeManager(ContainerLifetimeEnum lifetimeEnum)
         {
@@ -56,7 +66,7 @@ namespace TodoList.DI
                     return new ExternallyControlledLifetimeManager();
                 default:
                     // TODO: is it OK this default? This is the same behavior as has without parametric constructor of the Unity Container.
-                    return new TransientLifetimeManager(); 
+                    return new TransientLifetimeManager();
             }
         }
     }

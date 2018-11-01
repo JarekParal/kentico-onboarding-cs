@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repository;
 
-namespace TodoList.Repository
+namespace TodoList.Repository.Repository
 {
     internal class ItemRepository : IItemRepository
     {
@@ -15,19 +15,19 @@ namespace TodoList.Repository
             new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
         };
 
-        public async Task<IEnumerable<Item>> GetAllAsync() 
+        public async Task<IEnumerable<Item>> GetAllAsync()
             => await Task.FromResult(s_items);
 
-        public async Task<Item> GetAsync(Guid id) 
+        public async Task<Item> GetAsync(Guid id)
             => await Task.FromResult(s_items[0]);
 
-        public async Task<Item> AddAsync(Item item) 
+        public async Task<Item> AddAsync(Item item)
             => await Task.FromResult(s_items[0]);
 
         public async Task<Item> EditAsync(Item item)
             => await Task.FromResult(s_items[0]);
 
-        public async Task DeleteAsync(Guid id) 
+        public async Task DeleteAsync(Guid id)
             => await Task.CompletedTask;
     }
 }
