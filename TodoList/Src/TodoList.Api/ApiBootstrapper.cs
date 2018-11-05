@@ -4,7 +4,7 @@ using TodoList.Contracts.Routes;
 
 namespace TodoList.Api
 {
-    public class ApiBootstrapper
+    public class ApiBootstrapper : IBootstrapper
     {
         public ITodoListContainer Register(ITodoListContainer container)
             => container
