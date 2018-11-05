@@ -2,7 +2,6 @@
 using System.Web.Http.Routing;
 using System.Web.Routing;
 using NSubstitute;
-using NSubstitute.Core;
 using NUnit.Framework;
 using TodoList.Contracts.Api.Services;
 using TodoList.Contracts.Routes;

@@ -7,14 +7,14 @@ using Unity.Exceptions;
 
 namespace TodoList.DI.DependencyResolvers
 {
-    public class DependencyResolver : IDependencyResolver
+    public class DependencyResolver : ITodoListDependencyResolver
     {
-        public ITodoListContainer Container { get; }
+        internal readonly ITodoListContainer Container;
 
-        public DependencyResolver()
+        internal DependencyResolver()
             => Container = new TodoListContainer();
 
-        private DependencyResolver(ITodoListContainer todoListContainer)
+        internal DependencyResolver(ITodoListContainer todoListContainer)
             => Container = todoListContainer;
 
         public object GetService(Type serviceType)

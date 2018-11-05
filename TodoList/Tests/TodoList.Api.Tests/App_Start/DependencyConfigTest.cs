@@ -16,7 +16,8 @@ namespace TodoList.Api.Tests
         private readonly Type[] _ignoredTypes =
         {
             typeof(IBootstrapper),
-            typeof(ITodoListContainer)
+            typeof(ITodoListContainer),
+            typeof(ITodoListDependencyResolver)
         };
 
         private Type[] _requiredTypes;
@@ -52,9 +53,9 @@ namespace TodoList.Api.Tests
 
             Assert.That(containerRegistrations, Is.Not.Null);
             Assert.That(containerRegistrations, Is.SupersetOf(_requiredTypes),
-                "Not all required dependencies are correctly resolved:");
+                "TEST ERROR: Not all required dependencies are correctly resolved:");
             Assert.That(containerRegistrations, Is.Not.SubsetOf(_ignoredTypes),
-                "Some unassociated dependencies are resolved:");
+                "TEST ERROR: Some unassociated dependencies are resolved:");
         }
     }
 }
