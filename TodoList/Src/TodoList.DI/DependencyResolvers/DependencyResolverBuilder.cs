@@ -1,29 +1,31 @@
-﻿using System.Collections.Generic;
-using TodoList.Contracts.DI;
+﻿using TodoList.Contracts.DI;
 using TodoList.DI.Containers;
 
 namespace TodoList.DI.DependencyResolvers
 {
     public class DependencyResolverBuilder
     {
-        private readonly List<IBootstrapper> _bootstrappers = new List<IBootstrapper>();
+        private readonly ITodoListContainer _container;
+
+        public static DependencyResolverBuilder GetInstance()
+        {
+            return new DependencyResolverBuilder(new TodoListContainer());
+        }
+
+        internal DependencyResolverBuilder(ITodoListContainer container)
+        {
+            _container = container;
+        }
 
         public DependencyResolverBuilder Bootstrap(IBootstrapper bootstrapper)
         {
-            _bootstrappers.Add(bootstrapper);
+            bootstrapper.Register(_container);
             return this;
         }
 
         public ITodoListDependencyResolver Build()
         {
-            ITodoListContainer container = new TodoListContainer();
-
-            foreach (var bootstrapper in _bootstrappers)
-            {
-                bootstrapper.Register(container);
-            }
-
-            return new DependencyResolver(container);
+            return new DependencyResolver(_container);
         }
     }
 }
