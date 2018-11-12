@@ -10,7 +10,6 @@ namespace TodoList.Contracts.DI
 
         ITodoListContainer RegisterType<TTypeTo>(ContainerLifetimeEnum lifetimeEnum, Func<object> factoryFunc);
 
-
         object Resolve(Type type);
 
         IEnumerable<object> ResolveAll(Type type);

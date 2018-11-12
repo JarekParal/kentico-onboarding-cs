@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Api.Services\ITodoListUrlHelper.cs" />
     <Compile Include="DI\ContainerLifetimeEnum.cs" />
+    <Compile Include="DI\DependencyResolutionFailedException.cs" />
     <Compile Include="DI\IBootstrapper.cs" />
     <Compile Include="DI\ITodoListContainer.cs" />
     <Compile Include="DI\ITodoListDependencyResolver.cs" />

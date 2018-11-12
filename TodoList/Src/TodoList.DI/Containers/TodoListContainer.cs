@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TodoList.Contracts.DI;
 using Unity;
+using Unity.Exceptions;
 using Unity.Injection;
 using Unity.Lifetime;
 
@@ -14,7 +15,7 @@ namespace TodoList.DI.Containers
         public TodoListContainer()
             => Container = new UnityContainer();
 
-        private TodoListContainer(IUnityContainer container)
+        internal TodoListContainer(IUnityContainer container)
             => Container = container;
 
         public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(ContainerLifetimeEnum lifetimeEnum)
@@ -34,10 +35,10 @@ namespace TodoList.DI.Containers
         }
 
         public object Resolve(Type type)
-            => Container.Resolve(type);
+            => ResolveTypes(() => Container.Resolve(type));
 
         public IEnumerable<object> ResolveAll(Type type)
-            => Container.ResolveAll(type);
+            => ResolveTypes(() => Container.ResolveAll(type));
 
         public ITodoListContainer CreateChildContainer()
         {
@@ -47,6 +48,21 @@ namespace TodoList.DI.Containers
 
         public void Dispose()
             => Container.Dispose();
+
+        private static T ResolveTypes<T>(Func<T> resolveFunc)
+        {
+            try
+            {
+                return resolveFunc();
+            }
+            catch (ResolutionFailedException exception)
+            {
+                throw new DependencyResolutionFailedException(
+                    "Problem with the resolving types.",
+                    exception
+                );
+            }
+        }
 
         private static LifetimeManager GetLifetimeManager(ContainerLifetimeEnum lifetimeEnum)
         {
