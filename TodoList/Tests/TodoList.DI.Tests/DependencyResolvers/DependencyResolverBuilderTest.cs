@@ -9,7 +9,7 @@ namespace TodoList.DI.Tests.DependencyResolvers
     public class DependencyResolverBuilderTest
     {
         [Test]
-        public void Bootsrap()
+        public void Bootsrap_CheckCallBootsrapperRegistryMethod()
         {
             var container = Substitute.For<ITodoListContainer>();
             var bootsrapper = Substitute.For<IBootstrapper>();

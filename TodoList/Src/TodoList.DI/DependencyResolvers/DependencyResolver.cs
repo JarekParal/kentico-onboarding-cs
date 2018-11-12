@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Dependencies;
 using TodoList.Contracts.DI;
 using TodoList.DI.Containers;
-using Unity.Exceptions;
 
 namespace TodoList.DI.DependencyResolvers
 {
@@ -18,26 +18,20 @@ namespace TodoList.DI.DependencyResolvers
             => Container = todoListContainer;
 
         public object GetService(Type serviceType)
-        {
-            try
-            {
-                return Container.Resolve(serviceType);
-            }
-            catch (ResolutionFailedException)
-            {
-                return null;
-            }
-        }
+            => GetService(() => Container.Resolve(serviceType));
 
         public IEnumerable<object> GetServices(Type serviceType)
+            => GetService(() => Container.ResolveAll(serviceType)) ?? Enumerable.Empty<object>();
+
+        private static T GetService<T>(Func<T> resolveFunc) where T : class 
         {
             try
             {
-                return Container.ResolveAll(serviceType);
+                return resolveFunc();
             }
-            catch (ResolutionFailedException)
+            catch (DependencyResolutionFailedException)
             {
-                return new List<object>();
+                return null;
             }
         }
 
