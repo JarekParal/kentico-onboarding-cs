@@ -7,10 +7,10 @@ namespace TodoList.Contracts.Repository
 {
     public interface IItemRepository
     {
-        Task<IEnumerable<Item>> GetAllAsync();
-        Task<Item> GetAsync(Guid id);
-        Task<Item> AddAsync(Item item);
-        Task<Item> EditAsync(Item item);
-        Task DeleteAsync(Guid id);
+        Task<IEnumerable<Item>> GetAllItemsAsync();
+        Task<Item> GetItemAsync(Guid id);
+        Task<Item> AddItemAsync(Item item);
+        Task<Item> EditItemAsync(Item item);
+        Task DeleteItemAsync(Guid id);
     }
 }

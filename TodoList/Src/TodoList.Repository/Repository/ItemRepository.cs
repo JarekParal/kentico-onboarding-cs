@@ -15,19 +15,19 @@ namespace TodoList.Repository.Repository
             new Item {Id = new Guid("4BAF698C-AF41-4AA1-8465-85C00073BD13"), Text = "Elephant"}
         };
 
-        public async Task<IEnumerable<Item>> GetAllAsync()
+        public async Task<IEnumerable<Item>> GetAllItemsAsync()
             => await Task.FromResult(s_items);
 
-        public async Task<Item> GetAsync(Guid id)
+        public async Task<Item> GetItemAsync(Guid id)
             => await Task.FromResult(s_items[0]);
 
-        public async Task<Item> AddAsync(Item item)
+        public async Task<Item> AddItemAsync(Item item)
             => await Task.FromResult(s_items[0]);
 
-        public async Task<Item> EditAsync(Item item)
+        public async Task<Item> EditItemAsync(Item item)
             => await Task.FromResult(s_items[0]);
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteItemAsync(Guid id)
             => await Task.CompletedTask;
     }
 }
