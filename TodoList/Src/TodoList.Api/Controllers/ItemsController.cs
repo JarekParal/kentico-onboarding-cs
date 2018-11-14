@@ -22,29 +22,30 @@ namespace TodoList.Api.Controllers
             _urlHelper = urlHelper;
         }
 
-        public async Task<IHttpActionResult> GetAsync()
-            => Ok(await _repository.GetAllAsync());
+        public async Task<IHttpActionResult> GetItemsAsync()
+            => Ok(await _repository.GetAllItemsAsync());
 
         [Route("{id}", Name = RouteNames.GetItemName)]
-        public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await _repository.GetAsync(id));
+        public async Task<IHttpActionResult> GetItemAsync(Guid id)
+            => Ok(await _repository.GetItemAsync(id));
 
-        public async Task<IHttpActionResult> PostAsync([FromBody] Item item)
+        public async Task<IHttpActionResult> PostItemAsync([FromBody] Item item)
         {
-            var result = await _repository.AddAsync(item);
+            var result = await _repository.AddItemAsync(item);
             var link = _urlHelper.Link(result.Id);
 
             return Created(link, result);
         }
 
         [Route("{id}")]
-        public async Task<IHttpActionResult> PutAsync(Guid id, [FromBody] Item item)
-            => Ok(await _repository.EditAsync(item));
+        public async Task<IHttpActionResult> PutItemAsync(Guid id, [FromBody] Item item)
+            => Ok(await _repository.EditItemAsync(item));
 
         [Route("{id}")]
-        public async Task<IHttpActionResult> DeleteAsync(Guid id)
+        public async Task<IHttpActionResult> DeleteItemAsync(Guid id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.DeleteItemAsync(id);
+
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

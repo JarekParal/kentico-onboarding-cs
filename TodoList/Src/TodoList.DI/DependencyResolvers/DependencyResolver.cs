@@ -9,11 +9,9 @@ namespace TodoList.DI.DependencyResolvers
 {
     public class DependencyResolver : ITodoListDependencyResolver
     {
+        private bool _disposed;
         internal readonly ITodoListContainer Container;
-
-        internal DependencyResolver()
-            => Container = new TodoListContainer();
-
+        
         internal DependencyResolver(ITodoListContainer todoListContainer)
             => Container = todoListContainer;
 
@@ -45,6 +43,14 @@ namespace TodoList.DI.DependencyResolvers
             => Dispose(true);
 
         protected virtual void Dispose(bool disposing)
-            => Container.Dispose();
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            Container.Dispose();
+            _disposed = true;
+        }
     }
 }

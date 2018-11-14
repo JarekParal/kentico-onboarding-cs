@@ -10,6 +10,7 @@ namespace TodoList.DI.Containers
 {
     internal class TodoListContainer : ITodoListContainer
     {
+        private bool _disposed;
         internal readonly IUnityContainer Container;
 
         public TodoListContainer()
@@ -23,6 +24,7 @@ namespace TodoList.DI.Containers
         {
             var lifetimeManager = GetLifetimeManager(lifetimeEnum);
             Container.RegisterType<TTypeFrom, TTypeTo>(lifetimeManager);
+
             return this;
         }
 
@@ -31,6 +33,7 @@ namespace TodoList.DI.Containers
         {
             var lifetimeManager = GetLifetimeManager(lifetimeEnum);
             Container.RegisterType<TTypeTo>(lifetimeManager, new InjectionFactory(_ => factoryFunc()));
+
             return this;
         }
 
@@ -43,11 +46,19 @@ namespace TodoList.DI.Containers
         public ITodoListContainer CreateChildContainer()
         {
             var newChildContainer = Container.CreateChildContainer();
+
             return new TodoListContainer(newChildContainer);
         }
 
         public void Dispose()
-            => Container.Dispose();
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            Container.Dispose();
+            _disposed = true;
+        }
 
         private static T ResolveTypes<T>(Func<T> resolveFunc)
         {
@@ -81,7 +92,6 @@ namespace TodoList.DI.Containers
                 case ContainerLifetimeEnum.ExternallyControlledLifetimeManager:
                     return new ExternallyControlledLifetimeManager();
                 default:
-                    // TODO: is it OK this default? This is the same behavior as has without parametric constructor of the Unity Container.
                     return new TransientLifetimeManager();
             }
         }

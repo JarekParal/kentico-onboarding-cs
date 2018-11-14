@@ -22,7 +22,7 @@ namespace TodoList.Api.Tests
 
         private Type[] _requiredTypes;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             _requiredTypes = typeof(Item).Assembly
