@@ -137,6 +137,10 @@
       <Project>{057917A1-9E0B-456A-9F15-8E75EA94FD17}</Project>
       <Name>TodoList.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TodoList.DI\TodoList.DI.csproj">
+      <Project>{DBFEC266-216F-45D5-8067-6088E3316123}</Project>
+      <Name>TodoList.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TodoList.Repository\TodoList.Repository.csproj">
       <Project>{43b739ab-e525-4551-842b-afbe8214d105}</Project>
       <Name>TodoList.Repository</Name>
