@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TodoList.Contracts.Models;
+using TodoList.Contracts.Repository;
 
 namespace TodoList.Repository
 {
-    public class ItemRepository : IItemRepository
+    internal class ItemRepository : IItemRepository
     {
         private static readonly Item[] s_items =
         {

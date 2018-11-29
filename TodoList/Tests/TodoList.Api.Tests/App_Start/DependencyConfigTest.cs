@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NSubstitute;
+using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Web.Http;
-using NSubstitute;
-using NUnit.Framework;
 using TodoList.Contracts.DI;
 using TodoList.Contracts.Models;
 using TodoList.DI.Containers;
@@ -17,7 +17,7 @@ namespace TodoList.Api.Tests
         {
             typeof(IBootstrapper),
             typeof(ITodoListContainer),
-            typeof(ITodoListDependencyResolver)
+            typeof(ITodoListProvider),
         };
 
         private Type[] _requiredTypes;
