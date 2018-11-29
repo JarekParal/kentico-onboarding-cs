@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using TodoList.DI;
+using TodoList.Api.Services;
 using TodoList.DI.DependencyResolvers;
 using TodoList.Repository;
 
@@ -12,7 +12,9 @@ namespace TodoList.Api
             var configDependencyResolver = new DependencyResolver();
 
             var todoListContainer = configDependencyResolver.Container;
+            new ApiBootstrapper().Register(todoListContainer);
             new RepositoryBootstrapper().Register(todoListContainer);
+            new ApiServicesBootstrapper().Register(todoListContainer);
 
             config.DependencyResolver = configDependencyResolver;
         }

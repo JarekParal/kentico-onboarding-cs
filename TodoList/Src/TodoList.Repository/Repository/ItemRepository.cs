@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repository;
 
-namespace TodoList.Repository
+namespace TodoList.Repository.Repository
 {
     internal class ItemRepository : IItemRepository
     {
