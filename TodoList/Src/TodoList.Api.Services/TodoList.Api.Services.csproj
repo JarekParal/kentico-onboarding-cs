@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.props" Condition="Exists('..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{057917A1-9E0B-456A-9F15-8E75EA94FD17}</ProjectGuid>
+    <ProjectGuid>{0B7D9914-8276-4A28-AF39-487A3908837B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TodoList.Contracts</RootNamespace>
-    <AssemblyName>TodoList.Contracts</AssemblyName>
+    <RootNamespace>TodoList.Api.Services</RootNamespace>
+    <AssemblyName>TodoList.Api.Services</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,14 +38,11 @@
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -54,20 +54,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api.Services\ITodoListUrlHelper.cs" />
-    <Compile Include="DI\Lifetime.cs" />
-    <Compile Include="DI\DependencyResolutionFailedException.cs" />
-    <Compile Include="DI\IBootstrapper.cs" />
-    <Compile Include="DI\ITodoListContainer.cs" />
-    <Compile Include="DI\ITodoListDependencyResolver.cs" />
-    <Compile Include="Models\Item.cs" />
+    <Compile Include="ApiServicesBootstrapper.cs" />
+    <Compile Include="UrlHelpers\ItemUrlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\IItemRepository.cs" />
-    <Compile Include="Routes\IRouteNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TodoList.Contracts\TodoList.Contracts.csproj">
+      <Project>{057917a1-9e0b-456a-9f15-8e75ea94fd17}</Project>
+      <Name>TodoList.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.props'))" />
+    <Error Condition="!Exists('..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.targets" Condition="Exists('..\..\packages\SourceLink.Create.CommandLine.2.8.3\build\SourceLink.Create.CommandLine.targets')" />
 </Project>

@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.DI", "Src\TodoList
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.DI.Tests", "Tests\TodoList.DI.Tests\TodoList.DI.Tests.csproj", "{67D8FB26-02C6-4277-BE7B-325C351E8DBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api.Services.Tests", "Tests\TodoList.Api.Services.Tests\TodoList.Api.Services.Tests.csproj", "{B211E3D5-A4C5-48BF-A574-38DB0989E3DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api.Services", "Src\TodoList.Api.Services\TodoList.Api.Services.csproj", "{0B7D9914-8276-4A28-AF39-487A3908837B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{67D8FB26-02C6-4277-BE7B-325C351E8DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67D8FB26-02C6-4277-BE7B-325C351E8DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67D8FB26-02C6-4277-BE7B-325C351E8DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B211E3D5-A4C5-48BF-A574-38DB0989E3DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B211E3D5-A4C5-48BF-A574-38DB0989E3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B211E3D5-A4C5-48BF-A574-38DB0989E3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B211E3D5-A4C5-48BF-A574-38DB0989E3DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B7D9914-8276-4A28-AF39-487A3908837B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +72,8 @@ Global
 		{057917A1-9E0B-456A-9F15-8E75EA94FD17} = {D08B652E-B98B-473A-AC59-390AB952250C}
 		{DBFEC266-216F-45D5-8067-6088E3316123} = {D08B652E-B98B-473A-AC59-390AB952250C}
 		{67D8FB26-02C6-4277-BE7B-325C351E8DBA} = {F136D67C-93BF-454D-97B5-D9B20EE7A76F}
+		{B211E3D5-A4C5-48BF-A574-38DB0989E3DE} = {F136D67C-93BF-454D-97B5-D9B20EE7A76F}
+		{0B7D9914-8276-4A28-AF39-487A3908837B} = {D08B652E-B98B-473A-AC59-390AB952250C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A0C7BC2-9D66-42B8-BD1D-E6CAC0459A24}

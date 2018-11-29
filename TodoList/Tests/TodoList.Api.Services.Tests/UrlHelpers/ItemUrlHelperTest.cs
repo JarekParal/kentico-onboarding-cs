@@ -1,0 +1,51 @@
+﻿using NSubstitute;
+using NUnit.Framework;
+using System;
+using System.Web.Http.Routing;
+using System.Web.Routing;
+using TodoList.Api.Services.UrlHelpers;
+using TodoList.Contracts.Api.Services;
+using TodoList.Contracts.Routes;
+
+namespace TodoList.Api.Services.Tests.UrlHelpers
+{
+    [TestFixture]
+    public class ItemUrlHelperTest
+    {
+        private ITodoListUrlHelper _itemUrlHelper;
+        private UrlHelper _urlHelper;
+        private IRouteNames _routeNames;
+
+        private static readonly Guid s_id = new Guid("1BBA61A3-9DA6-4A28-8A12-F543BB5EA737");
+
+        [SetUp]
+        public void SetUp()
+        {
+            _urlHelper = Substitute.For<UrlHelper>();
+            _routeNames = Substitute.For<IRouteNames>();
+            _itemUrlHelper = new ItemUrlHelper(_urlHelper, _routeNames);
+        }
+
+        [Test]
+        public void Link_CorrectRouteAndId_CorrectReturn()
+        {
+            var expectedLocation = new Uri($"http://local/{s_id}/Item");
+            var routeName = "Item";
+            _urlHelper
+                .Link(routeName, Arg.Is<object>(item => CheckTypeOfGuid(item, s_id)))
+                .Returns(expectedLocation.AbsoluteUri);
+            _routeNames.GetItem.Returns(routeName);
+
+            var result = _itemUrlHelper.GetItemLink(s_id);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(expectedLocation));
+        }
+
+        private static bool CheckTypeOfGuid(object item, Guid id)
+        {
+            var itemId = new RouteValueDictionary(item)["id"];
+            return itemId is Guid && itemId.Equals(id);
+        }
+    }
+}
