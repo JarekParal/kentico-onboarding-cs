@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyResolvers\DependencyResolverBuilder.cs" />
     <Compile Include="DependencyResolvers\DependencyResolver.cs" />
     <Compile Include="Extensions\LifetimeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
