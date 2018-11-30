@@ -10,8 +10,8 @@ namespace TodoList.Api.Services
     {
         public ITodoListContainer Register(ITodoListContainer container)
             => container
-                .RegisterType<ITodoListUrlHelper, ItemUrlHelper>(ContainerLifetimeEnum.HierarchicalLifetimeManager)
-                .RegisterType<HttpRequestMessage>(ContainerLifetimeEnum.HierarchicalLifetimeManager, GetMessage);
+                .RegisterType<ITodoListUrlHelper, ItemUrlHelper>(Lifetime.PerRequest)
+                .RegisterType<HttpRequestMessage>(Lifetime.PerRequest, GetMessage);
 
         private static HttpRequestMessage GetMessage()
             => HttpContext.Current.Items["MS_HttpRequestMessage"] as HttpRequestMessage;

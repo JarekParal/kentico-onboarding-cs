@@ -8,6 +8,6 @@ namespace TodoList.Repository
     {
         public ITodoListContainer Register(ITodoListContainer container)
             => container
-                .RegisterType<IItemRepository, ItemRepository>(ContainerLifetimeEnum.HierarchicalLifetimeManager);
+                .RegisterType<IItemRepository, ItemRepository>(Lifetime.PerRequest);
     }
 }

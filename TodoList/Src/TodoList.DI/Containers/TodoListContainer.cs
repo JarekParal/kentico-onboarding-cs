@@ -19,19 +19,19 @@ namespace TodoList.DI.Containers
         internal TodoListContainer(IUnityContainer container)
             => Container = container;
 
-        public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(ContainerLifetimeEnum lifetimeEnum)
+        public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(Lifetime lifetime)
             where TTypeTo : TTypeFrom
         {
-            var lifetimeManager = GetLifetimeManager(lifetimeEnum);
+            var lifetimeManager = GetLifetimeManager(lifetime);
             Container.RegisterType<TTypeFrom, TTypeTo>(lifetimeManager);
 
             return this;
         }
 
-        public ITodoListContainer RegisterType<TTypeTo>(ContainerLifetimeEnum lifetimeEnum,
+        public ITodoListContainer RegisterType<TTypeTo>(Lifetime lifetime,
             Func<object> factoryFunc)
         {
-            var lifetimeManager = GetLifetimeManager(lifetimeEnum);
+            var lifetimeManager = GetLifetimeManager(lifetime);
             Container.RegisterType<TTypeTo>(lifetimeManager, new InjectionFactory(_ => factoryFunc()));
 
             return this;
@@ -75,24 +75,16 @@ namespace TodoList.DI.Containers
             }
         }
 
-        private static LifetimeManager GetLifetimeManager(ContainerLifetimeEnum lifetimeEnum)
+        private static LifetimeManager GetLifetimeManager(Lifetime lifetime)
         {
-            switch (lifetimeEnum)
+            switch (lifetime)
             {
-                case ContainerLifetimeEnum.TransientLifetimeManager:
-                    return new TransientLifetimeManager();
-                case ContainerLifetimeEnum.ContainerControlledLifetimeManager:
+                case Lifetime.PerApplication:
                     return new ContainerControlledLifetimeManager();
-                case ContainerLifetimeEnum.HierarchicalLifetimeManager:
+                case Lifetime.PerRequest:
                     return new HierarchicalLifetimeManager();
-                case ContainerLifetimeEnum.PerResolveLifetimeManager:
-                    return new PerResolveLifetimeManager();
-                case ContainerLifetimeEnum.PerThreadLifetimeManager:
-                    return new PerThreadLifetimeManager();
-                case ContainerLifetimeEnum.ExternallyControlledLifetimeManager:
-                    return new ExternallyControlledLifetimeManager();
                 default:
-                    return new TransientLifetimeManager();
+                    return new TransientLifetimeManager(); // default in Unity
             }
         }
     }
