@@ -19,20 +19,20 @@ namespace TodoList.DI.Containers
         internal TodoListContainer(IUnityContainer container)
             => Container = container;
 
-        public ITodoListContainer RegisterType<TTypeFrom, TTypeTo>(Lifetime lifetime)
-            where TTypeTo : TTypeFrom
+        public ITodoListContainer RegisterType<TContract, TImplementation>(Lifetime lifetime)
+            where TImplementation : TContract
         {
             var lifetimeManager = GetLifetimeManager(lifetime);
-            Container.RegisterType<TTypeFrom, TTypeTo>(lifetimeManager);
+            Container.RegisterType<TContract, TImplementation>(lifetimeManager);
 
             return this;
         }
 
-        public ITodoListContainer RegisterType<TTypeTo>(Lifetime lifetime,
+        public ITodoListContainer RegisterType<TContract>(Lifetime lifetime,
             Func<object> factoryFunc)
         {
             var lifetimeManager = GetLifetimeManager(lifetime);
-            Container.RegisterType<TTypeTo>(lifetimeManager, new InjectionFactory(_ => factoryFunc()));
+            Container.RegisterType<TContract>(lifetimeManager, new InjectionFactory(_ => factoryFunc()));
 
             return this;
         }
