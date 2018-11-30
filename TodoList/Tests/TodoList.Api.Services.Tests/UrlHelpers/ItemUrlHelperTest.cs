@@ -29,16 +29,17 @@ namespace TodoList.Api.Services.Tests.UrlHelpers
         [Test]
         public void Link_CorrectRouteAndId_CorrectReturn()
         {
-            var uri = new Uri($"http://local/Item/{s_id}");
+            var expectedLocation = new Uri($"http://local/{s_id}/Item");
+            var routeName = "Item";
             _urlHelper
-                .Link("Item", Arg.Is<object>(item => CheckTypeOfGuid(item, s_id)))
-                .Returns(uri.AbsoluteUri);
-            _routeNames.GetItem.Returns("Item");
+                .Link(routeName, Arg.Is<object>(item => CheckTypeOfGuid(item, s_id)))
+                .Returns(expectedLocation.AbsoluteUri);
+            _routeNames.GetItem.Returns(routeName);
 
             var result = _itemUrlHelper.Link(s_id);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(uri));
+            Assert.That(result, Is.EqualTo(expectedLocation));
         }
 
         private static bool CheckTypeOfGuid(object item, Guid id)
