@@ -8,6 +8,6 @@ namespace TodoList.Api
     {
         public ITodoListContainer Register(ITodoListContainer container)
             => container
-                .RegisterType<IRouteNames, RouteNames>(ContainerLifetimeEnum.HierarchicalLifetimeManager);
+                .RegisterType<IRouteNames, RouteNames>(ContainerLifetimeEnum.ContainerControlledLifetimeManager);
     }
 }
