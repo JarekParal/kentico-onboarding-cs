@@ -9,7 +9,7 @@ namespace TodoList.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            var dependencyResolverBuilder = DependencyResolverBuilder.GetInstance();
+            var dependencyResolverBuilder = new DependencyResolverBuilder();
             config.DependencyResolver = dependencyResolverBuilder
                 .Bootstrap(new ApiBootstrapper())
                 .Bootstrap(new RepositoryBootstrapper())

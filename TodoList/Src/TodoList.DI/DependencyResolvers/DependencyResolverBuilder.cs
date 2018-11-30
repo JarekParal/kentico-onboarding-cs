@@ -7,9 +7,8 @@ namespace TodoList.DI.DependencyResolvers
     {
         private readonly ITodoListContainer _container;
 
-        public static DependencyResolverBuilder GetInstance()
+        public DependencyResolverBuilder() : this(new TodoListContainer())
         {
-            return new DependencyResolverBuilder(new TodoListContainer());
         }
 
         internal DependencyResolverBuilder(ITodoListContainer container)
