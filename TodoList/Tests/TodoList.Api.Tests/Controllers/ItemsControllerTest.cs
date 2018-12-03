@@ -91,7 +91,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             _repository.AddItemAsync(s_catDog).Returns(s_items[0]);
             var uriString = $"http://location/objects/{s_items[0].Id}/CreatedPath";
-            _urlHelper.Link(Arg.Any<Guid>()).Returns(new Uri(uriString));
+            _urlHelper.Link(s_items[0].Id).Returns(new Uri(uriString));
 
             var contentResult = await _controller
                 .ExecuteAction(controller => controller.PostItemAsync(s_catDog));
