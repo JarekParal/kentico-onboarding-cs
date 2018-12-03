@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using TodoList.Contracts.DI;
+using TodoList.DI.Extensions;
 using Unity;
 using Unity.Exceptions;
 using Unity.Injection;
-using Unity.Lifetime;
 
 namespace TodoList.DI.Containers
 {
@@ -22,8 +22,7 @@ namespace TodoList.DI.Containers
         public ITodoListContainer RegisterType<TContract, TImplementation>(Lifetime lifetime)
             where TImplementation : TContract
         {
-            var lifetimeManager = GetLifetimeManager(lifetime);
-            Container.RegisterType<TContract, TImplementation>(lifetimeManager);
+            Container.RegisterType<TContract, TImplementation>(lifetime.GetUnityLifetimeManager());
 
             return this;
         }
@@ -31,8 +30,7 @@ namespace TodoList.DI.Containers
         public ITodoListContainer RegisterType<TContract>(Lifetime lifetime,
             Func<object> factoryFunc)
         {
-            var lifetimeManager = GetLifetimeManager(lifetime);
-            Container.RegisterType<TContract>(lifetimeManager, new InjectionFactory(_ => factoryFunc()));
+            Container.RegisterType<TContract>(lifetime.GetUnityLifetimeManager(), new InjectionFactory(_ => factoryFunc()));
 
             return this;
         }
@@ -72,19 +70,6 @@ namespace TodoList.DI.Containers
                     "Problem with the resolving types.",
                     exception
                 );
-            }
-        }
-
-        private static LifetimeManager GetLifetimeManager(Lifetime lifetime)
-        {
-            switch (lifetime)
-            {
-                case Lifetime.PerApplication:
-                    return new ContainerControlledLifetimeManager();
-                case Lifetime.PerRequest:
-                    return new HierarchicalLifetimeManager();
-                default:
-                    return new TransientLifetimeManager(); // default in Unity
             }
         }
     }
