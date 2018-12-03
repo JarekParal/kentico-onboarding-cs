@@ -7,52 +7,24 @@ namespace TodoList.Api.Tests.Routes
     [TestFixture]
     public class RoutePrefixControllerAttributeTest
     {
-        [Test]
-        public void Prefix_WithAnyAndVersionV1_ReturnValidString()
+        [TestCase("Any")]
+        [TestCase("AnyController")]
+        [TestCase("AnyControllerController")]
+        public void Prefix_WithAllPossibleNames_ReturnValidString(string input)
         {
-            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, "Any");
+            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, input);
 
             Assert.That(attribute.Prefix, Is.EqualTo("api/V1/Any"));
         }
 
-        [Test]
-        public void Prefix_WithAnyControllerAndVersionV1_ReturnValidString()
+        [TestCase("An yControllerController", "api/V1/An y")]
+        [TestCase("AnyControl", "api/V1/AnyControl")]
+        [TestCase("", "api/V1")]
+        public void Prefix_WithInvalidNames_ReturnWrongString(string input, string expectedOutput)
         {
-            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, "AnyController");
+            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, input);
 
-            Assert.That(attribute.Prefix, Is.EqualTo("api/V1/Any"));
-        }
-
-        [Test]
-        public void Prefix_WithAnyControllerControllerAndVersionV1_ReturnValidString()
-        {
-            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, "AnyControllerController");
-
-            Assert.That(attribute.Prefix, Is.EqualTo("api/V1/Any"));
-        }
-
-        [Test]
-        public void Prefix_WithAnyControllerControllerWithSpaceAndVersionV1_ReturnValidString()
-        {
-            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, "An yControllerController");
-
-            Assert.That(attribute.Prefix, Is.EqualTo("api/V1/An y"));
-        }
-
-        [Test]
-        public void Prefix_WithMistakeInStringController_ReturnValidString()
-        {
-            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, "AnyControl");
-
-            Assert.That(attribute.Prefix, Is.EqualTo("api/V1/AnyControl"));
-        }
-
-        [Test]
-        public void Prefix_WithEmptyControllerAndVersionV1_ReturnValidString()
-        {
-            var attribute = new RoutePrefixControllerAttribute(ApiVersion.V1, string.Empty);
-
-            Assert.That(attribute.Prefix, Is.EqualTo("api/V1"));
+            Assert.That(attribute.Prefix, Is.EqualTo(expectedOutput));
         }
 
         [Test]
