@@ -16,7 +16,7 @@ namespace TodoList.Api.Services.UrlHelpers
             _routeNames = routeNames;
         }
 
-        public Uri Link(Guid id)
+        public Uri GetItemLink(Guid id)
             => new Uri(_urlHelper.Link(_routeNames.GetItem, new {id}));
     }
 }

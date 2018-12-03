@@ -32,7 +32,7 @@ namespace TodoList.Api.Controllers
         public async Task<IHttpActionResult> PostItemAsync([FromBody] Item item)
         {
             var result = await _repository.AddItemAsync(item);
-            var link = _urlHelper.Link(result.Id);
+            var link = _urlHelper.GetItemLink(result.Id);
 
             return Created(link, result);
         }

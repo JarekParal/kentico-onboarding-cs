@@ -36,7 +36,7 @@ namespace TodoList.Api.Services.Tests.UrlHelpers
                 .Returns(expectedLocation.AbsoluteUri);
             _routeNames.GetItem.Returns(routeName);
 
-            var result = _itemUrlHelper.Link(s_id);
+            var result = _itemUrlHelper.GetItemLink(s_id);
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(expectedLocation));
