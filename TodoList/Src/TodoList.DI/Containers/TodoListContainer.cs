@@ -67,7 +67,7 @@ namespace TodoList.DI.Containers
             catch (ResolutionFailedException exception)
             {
                 throw new DependencyResolutionFailedException(
-                    "Problem with the resolving types.",
+                    exception.Message,
                     exception
                 );
             }
