@@ -49,5 +49,48 @@ namespace TodoList.DI.Tests.Containers
 
             Assert.That(result, Is.EqualTo(outputListOfInstances));
         }
+
+        [Test]
+        public void ResolveAll_NotRegisteredInterface_EmptyCollection()
+        {
+            var container = new TodoListContainer();
+
+            var result = container.ResolveAll(_inputInterface); // TODO: check if the test is correct
+
+            Assert.That(result, Is.Empty);
+        }
+
+        [Test]
+        public void CreateChildContainer_NotNull()
+        {
+            var container = new TodoListContainer();
+
+            var result = container.CreateChildContainer();
+
+            Assert.That(result, Is.Not.Null);
+        }
+
+        [Test]
+        public void Dispose_CheckIfIsCallOnUnityContainer()
+        {
+            var unityContainer = Substitute.For<IUnityContainer>();
+            var container = new TodoListContainer(unityContainer);
+
+            container.Dispose();
+
+            unityContainer.Received(1).Dispose();
+        }
+
+        [Test]
+        public void Dispose_CheckIfIsCallJustOneTimeOnUnityContainer()
+        {
+            var unityContainer = Substitute.For<IUnityContainer>();
+            var container = new TodoListContainer(unityContainer);
+
+            container.Dispose();
+            container.Dispose();
+
+            unityContainer.Received(1).Dispose();
+        }
     }
 }
