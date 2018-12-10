@@ -8,16 +8,27 @@ namespace TodoList.DI.Tests.DependencyResolvers
     [TestFixture]
     public class DependencyResolverBuilderTest
     {
+        private class FakeBootstrapper : IBootstrapper
+        {
+            public static int RegisterCallCounter { get; private set; }
+
+            public ITodoListContainer Register(ITodoListContainer container)
+            {
+                ++RegisterCallCounter;
+                return container;
+            }
+
+        }
+
         [Test]
-        public void Bootsrap_CheckCallBootsrapperRegistryMethod()
+        public void Bootsrap_CheckCallBootsrapperRegisterMethod()
         {
             var container = Substitute.For<ITodoListContainer>();
-            var bootsrapper = Substitute.For<IBootstrapper>();
             var builder = new DependencyResolverBuilder(container);
 
-            builder.Bootstrap(bootsrapper);
+            builder.Bootstrap<FakeBootstrapper>();
 
-            bootsrapper.Received(1).Register(container);
+            Assert.That(FakeBootstrapper.RegisterCallCounter, Is.EqualTo(1));
         }
     }
 }

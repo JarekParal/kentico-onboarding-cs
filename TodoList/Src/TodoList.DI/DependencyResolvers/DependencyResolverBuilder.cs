@@ -16,8 +16,10 @@ namespace TodoList.DI.DependencyResolvers
             _container = container;
         }
 
-        public DependencyResolverBuilder Bootstrap(IBootstrapper bootstrapper)
+        public DependencyResolverBuilder Bootstrap<TBootstrapper>()
+            where TBootstrapper : IBootstrapper, new()
         {
+            IBootstrapper bootstrapper = new TBootstrapper();
             bootstrapper.Register(_container);
             return this;
         }

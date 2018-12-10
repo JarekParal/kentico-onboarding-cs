@@ -11,9 +11,9 @@ namespace TodoList.Api
         {
             var dependencyResolverBuilder = new DependencyResolverBuilder();
             config.DependencyResolver = dependencyResolverBuilder
-                .Bootstrap(new ApiBootstrapper())
-                .Bootstrap(new RepositoryBootstrapper())
-                .Bootstrap(new ApiServicesBootstrapper())
+                .Bootstrap<ApiBootstrapper>()
+                .Bootstrap<RepositoryBootstrapper>()
+                .Bootstrap<ApiServicesBootstrapper>()
                 .Build();
         }
     }
