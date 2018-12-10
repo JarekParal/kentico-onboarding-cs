@@ -1,71 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NSubstitute;
+﻿using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TodoList.Contracts.DI;
-using TodoList.Contracts.Models;
 using TodoList.DI.DependencyResolvers;
+using TodoList.DI.Tests.Utils;
 
 namespace TodoList.DI.Tests.DependencyResolvers
 {
     [TestFixture]
     public class DependencyResolverTest
     {
-        private readonly Type _serviceTypeIn = typeof(Type);
+        private readonly Type _inputInterface = typeof(IFake);
 
         [Test]
-        public void GetService_CheckCallContainerMethod()
+        public void GetService_Interface_InstanceOfTheInterface()
         {
-            var serviceTypeOut = typeof(Item);
+            var outputInstance = new Fake();
             var container = Substitute.For<ITodoListContainer>();
+            container.Resolve(_inputInterface).Returns(outputInstance);
             var resolver = new DependencyResolver(container);
-            container.Resolve(_serviceTypeIn).Returns(serviceTypeOut);
 
-            var result = resolver.GetService(_serviceTypeIn);
+            var result = resolver.GetService(_inputInterface);
 
-            Assert.That(result, Is.EqualTo(serviceTypeOut));
+            Assert.That(result, Is.EqualTo(outputInstance));
         }
 
         [Test]
-        public void GetService_CheckCorrectBehaviorWhenResolveThrowsException()
+        public void GetService_UnregisteredInterface_EmptyEnumerable()
         {
+            var exceptionWhichWillBeThrow =
+                new DependencyResolutionFailedException("Could not resolve the interface.", new Exception());
             var container = Substitute.For<ITodoListContainer>();
+            container.Resolve(_inputInterface).Throws(exceptionWhichWillBeThrow);
             var resolver = new DependencyResolver(container);
-            var exceptionIn = new DependencyResolutionFailedException();
-            container.Resolve(_serviceTypeIn).Throws(exceptionIn);
 
-            var result = resolver.GetService(_serviceTypeIn);
+            var result = resolver.GetService(_inputInterface);
 
             Assert.That(result, Is.EqualTo(null));
         }
-        
-        [Test]
-        public void GetServices_CheckCallContainerMethod()
-        {
-            var serviceTypesOut = new List<object> {typeof(Item)};
-            var container = Substitute.For<ITodoListContainer>();
-            var resolver = new DependencyResolver(container);
-            container.ResolveAll(_serviceTypeIn).Returns(serviceTypesOut);
-            
-            var result = resolver.GetServices(_serviceTypeIn);
 
-            Assert.That(result, Is.EqualTo(serviceTypesOut));
+        [Test]
+        public void GetServices_Interface_InstancesOfTheInterface()
+        {
+            var outputListOfInstances = new List<object> {new Fake()};
+            var container = Substitute.For<ITodoListContainer>();
+            container.ResolveAll(_inputInterface).Returns(outputListOfInstances);
+            var resolver = new DependencyResolver(container);
+
+            var result = resolver.GetServices(_inputInterface);
+
+            Assert.That(result, Is.EqualTo(outputListOfInstances));
         }
 
         [Test]
-        public void GetServices_CheckCorrectBehaviorWhenResolveAllThrowsException()
+        public void GetServices_UnregisteredInterface_EmptyEnumerable()
         {
+            var exceptionWhichWillBeThrow =
+                new DependencyResolutionFailedException("Could not resolve the interface.", new Exception());
             var container = Substitute.For<ITodoListContainer>();
+            container.ResolveAll(_inputInterface).Throws(exceptionWhichWillBeThrow);
             var resolver = new DependencyResolver(container);
-            var exceptionIn = new DependencyResolutionFailedException();
-            container.ResolveAll(_serviceTypeIn).Throws(exceptionIn);
 
-            var result = resolver.GetServices(_serviceTypeIn);
+            var result = resolver.GetServices(_inputInterface);
 
             Assert.That(result, Is.EqualTo(Enumerable.Empty<object>()));
         }
-
     }
 }
