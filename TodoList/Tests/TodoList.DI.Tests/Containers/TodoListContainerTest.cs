@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using TodoList.Contracts.DI;
-using TodoList.Contracts.Models;
 using TodoList.DI.Containers;
+using TodoList.DI.Tests.Utils;
 using Unity;
 
 namespace TodoList.DI.Tests.Containers
@@ -12,42 +12,42 @@ namespace TodoList.DI.Tests.Containers
     [TestFixture]
     public class TodoListContainerTest
     {
-        private readonly Type _serviceTypeIn = typeof(Type);
+        private readonly Type _inputInterface = typeof(IFake);
 
         [Test]
-        public void Resolve_CheckCallContainerResolveMethod()
+        public void Resolve_Interface_InstanceOfTheInterface()
         {
-            var serviceTypeOut = typeof(Item);
+            var outputInstance = new Fake();
             var unityContainer = Substitute.For<IUnityContainer>();
+            unityContainer.Resolve(_inputInterface).Returns(outputInstance);
             var container = new TodoListContainer(unityContainer);
-            unityContainer.Resolve(_serviceTypeIn).Returns(serviceTypeOut);
 
-            var result = container.Resolve(_serviceTypeIn);
+            var result = container.Resolve(_inputInterface);
 
-            Assert.That(result, Is.EqualTo(serviceTypeOut));
+            Assert.That(result, Is.EqualTo(outputInstance));
         }
 
         [Test]
-        public void Resolve_NotRegisteredType_CheckThrowsException()
+        public void Resolve_NotRegisteredInterface_CheckThrowsException()
         {
             var container = new TodoListContainer();
 
             Assert.Throws<DependencyResolutionFailedException>(
-                () => container.Resolve(_serviceTypeIn)
+                () => container.Resolve(_inputInterface)
             );
         }
 
         [Test]
-        public void ResolveAll_CheckCallContainerResolveAllMethod()
+        public void ResolveAll_Interface_InstancesOfTheInterface()
         {
-            var serviceTypesOut = new List<object> {typeof(Item)};
+            var outputListOfInstances = new List<object> {new Fake()};
             var unityContainer = Substitute.For<IUnityContainer>();
+            unityContainer.Resolve(_inputInterface.MakeArrayType()).Returns(outputListOfInstances);
             var container = new TodoListContainer(unityContainer);
-            unityContainer.Resolve(_serviceTypeIn.MakeArrayType()).Returns(serviceTypesOut);
 
-            var result = container.ResolveAll(_serviceTypeIn);
+            var result = container.ResolveAll(_inputInterface);
 
-            Assert.That(result, Is.EqualTo(serviceTypesOut));
+            Assert.That(result, Is.EqualTo(outputListOfInstances));
         }
     }
 }
