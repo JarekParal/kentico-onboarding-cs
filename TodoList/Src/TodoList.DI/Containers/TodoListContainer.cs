@@ -8,7 +8,7 @@ using Unity.Injection;
 
 namespace TodoList.DI.Containers
 {
-    internal class TodoListContainer : ITodoListContainer
+    internal sealed class TodoListContainer : ITodoListContainer
     {
         private bool _disposed;
         internal readonly IUnityContainer Container;
