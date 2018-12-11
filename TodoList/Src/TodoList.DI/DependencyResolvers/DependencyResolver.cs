@@ -7,7 +7,7 @@ using TodoList.DI.Containers;
 
 namespace TodoList.DI.DependencyResolvers
 {
-    public class DependencyResolver : ITodoListDependencyResolver
+    public class DependencyResolver : IDependencyResolver
     {
         private bool _disposed;
         public readonly ITodoListContainer Container;

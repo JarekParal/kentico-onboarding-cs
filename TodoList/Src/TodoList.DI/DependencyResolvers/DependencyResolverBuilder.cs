@@ -1,4 +1,5 @@
-﻿using TodoList.Contracts.DI;
+﻿using System.Web.Http.Dependencies;
+using TodoList.Contracts.DI;
 using TodoList.DI.Containers;
 
 namespace TodoList.DI.DependencyResolvers
@@ -24,7 +25,7 @@ namespace TodoList.DI.DependencyResolvers
             return this;
         }
 
-        public ITodoListDependencyResolver Build()
+        public IDependencyResolver Build()
         {
             return new DependencyResolver(_container);
         }
