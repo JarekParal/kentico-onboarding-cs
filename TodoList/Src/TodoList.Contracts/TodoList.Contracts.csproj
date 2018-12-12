@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.Services\ITodoListUrlHelper.cs" />
+    <Compile Include="DI\ITodoListProvider.cs" />
     <Compile Include="DI\Lifetime.cs" />
     <Compile Include="DI\DependencyResolutionFailedException.cs" />
     <Compile Include="DI\IBootstrapper.cs" />

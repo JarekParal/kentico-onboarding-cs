@@ -91,6 +91,7 @@
     <Compile Include="DependencyResolvers\DependencyResolverBuilderTest.cs" />
     <Compile Include="DependencyResolvers\DependencyResolverTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provides\TodoListProviderTest.cs" />
     <Compile Include="Utils\Fake.cs" />
     <Compile Include="Utils\IFake.cs" />
   </ItemGroup>

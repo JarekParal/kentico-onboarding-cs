@@ -1,11 +1,10 @@
-﻿using System;
+﻿using NSubstitute;
+using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Web.Http;
-using NSubstitute;
-using NUnit.Framework;
 using TodoList.Contracts.DI;
 using TodoList.Contracts.Models;
-using TodoList.DI.Containers;
 using TodoList.DI.DependencyResolvers;
 
 namespace TodoList.Api.Tests
@@ -17,7 +16,7 @@ namespace TodoList.Api.Tests
         {
             typeof(IBootstrapper),
             typeof(ITodoListContainer),
-            typeof(ITodoListDependencyResolver)
+            typeof(ITodoListProvider),
         };
 
         private Type[] _requiredTypes;
@@ -41,7 +40,7 @@ namespace TodoList.Api.Tests
             DependencyConfig.Register(config);
             if (config.DependencyResolver is DependencyResolver dependencyResolver)
             {
-                if (dependencyResolver.Container is TodoListContainer container)
+                if (dependencyResolver.Container is ITodoListProvider container)
                 {
                     var unityContainer = container.Container;
                     containerRegistrations =

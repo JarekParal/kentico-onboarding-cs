@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using TodoList.Contracts.DI;
+using TodoList.DI.Containers;
 using TodoList.DI.DependencyResolvers;
 
 namespace TodoList.DI.Tests.DependencyResolvers
@@ -50,7 +51,7 @@ namespace TodoList.DI.Tests.DependencyResolvers
         [Test]
         public void Bootsrap_CheckCallForOneBootsrapperRegisterMethod()
         {
-            var container = Substitute.For<ITodoListContainer>();
+            var container = Substitute.For<TodoListContainer>();
             var builder = new DependencyResolverBuilder(container);
 
             builder.Bootstrap<FakeFirstBootstrapper>();
@@ -61,7 +62,7 @@ namespace TodoList.DI.Tests.DependencyResolvers
         [Test]
         public void Bootsrap_CheckCallForTwoBootsrapperRegisterMethod()
         {
-            var container = Substitute.For<ITodoListContainer>();
+            var container = Substitute.For<TodoListContainer>();
             var builder = new DependencyResolverBuilder(container);
 
             builder.Bootstrap<FakeFirstBootstrapper>();

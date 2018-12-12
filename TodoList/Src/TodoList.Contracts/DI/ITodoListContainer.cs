@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TodoList.Contracts.DI
 {
@@ -10,10 +9,5 @@ namespace TodoList.Contracts.DI
 
         ITodoListContainer RegisterType<TContract>(Lifetime lifetime, Func<object> factoryFunc);
 
-        object Resolve(Type type);
-
-        IEnumerable<object> ResolveAll(Type type);
-
-        ITodoListContainer CreateChildContainer();
     }
 }

@@ -10,12 +10,9 @@ namespace TodoList.DI.DependencyResolvers
     public class DependencyResolver : IDependencyResolver
     {
         private bool _disposed;
-        public readonly ITodoListContainer Container;
+        public readonly ITodoListProvider Container;
 
-        public DependencyResolver()
-            => Container = new TodoListContainer();
-
-        internal DependencyResolver(ITodoListContainer todoListContainer)
+        internal DependencyResolver(ITodoListProvider todoListContainer)
             => Container = todoListContainer;
 
         public object GetService(Type serviceType)

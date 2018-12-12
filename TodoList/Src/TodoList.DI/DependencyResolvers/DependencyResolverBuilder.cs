@@ -1,18 +1,19 @@
 ﻿using System.Web.Http.Dependencies;
 using TodoList.Contracts.DI;
 using TodoList.DI.Containers;
+using TodoList.DI.Providers;
 
 namespace TodoList.DI.DependencyResolvers
 {
     public class DependencyResolverBuilder
     {
-        private readonly ITodoListContainer _container;
+        private readonly TodoListContainer _container;
 
         public DependencyResolverBuilder() : this(new TodoListContainer())
         {
         }
 
-        internal DependencyResolverBuilder(ITodoListContainer container)
+        internal DependencyResolverBuilder(TodoListContainer container)
         {
             _container = container;
         }
@@ -27,7 +28,9 @@ namespace TodoList.DI.DependencyResolvers
 
         public IDependencyResolver Build()
         {
-            return new DependencyResolver(_container);
+            var unityContainer = _container.ReleaseUnityContainer();
+
+            return new DependencyResolver(new TodoListProvider(unityContainer));
         }
     }
 }

@@ -83,6 +83,7 @@
     <Compile Include="Extensions\LifetimeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Containers\TodoListContainer.cs" />
+    <Compile Include="Providers\TodoListProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

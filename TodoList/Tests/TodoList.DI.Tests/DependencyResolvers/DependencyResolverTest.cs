@@ -19,7 +19,7 @@ namespace TodoList.DI.Tests.DependencyResolvers
         public void GetService_Interface_InstanceOfTheInterface()
         {
             var outputInstance = new Fake();
-            var container = Substitute.For<ITodoListContainer>();
+            var container = Substitute.For<ITodoListProvider>();
             container.Resolve(_inputInterface).Returns(outputInstance);
             var resolver = new DependencyResolver(container);
 
@@ -29,11 +29,11 @@ namespace TodoList.DI.Tests.DependencyResolvers
         }
 
         [Test]
-        public void GetService_UnregisteredInterface_EmptyEnumerable()
+        public void GetService_UnregisteredInterface_Null()
         {
             var exceptionWhichWillBeThrow =
                 new DependencyResolutionFailedException("Could not resolve the interface.", new Exception());
-            var container = Substitute.For<ITodoListContainer>();
+            var container = Substitute.For<ITodoListProvider>();
             container.Resolve(_inputInterface).Throws(exceptionWhichWillBeThrow);
             var resolver = new DependencyResolver(container);
 
@@ -45,8 +45,8 @@ namespace TodoList.DI.Tests.DependencyResolvers
         [Test]
         public void GetServices_Interface_InstancesOfTheInterface()
         {
-            var outputListOfInstances = new List<object> {new Fake()};
-            var container = Substitute.For<ITodoListContainer>();
+            var outputListOfInstances = new List<object> { new Fake() };
+            var container = Substitute.For<ITodoListProvider>();
             container.ResolveAll(_inputInterface).Returns(outputListOfInstances);
             var resolver = new DependencyResolver(container);
 
@@ -60,7 +60,7 @@ namespace TodoList.DI.Tests.DependencyResolvers
         {
             var exceptionWhichWillBeThrow =
                 new DependencyResolutionFailedException("Could not resolve the interface.", new Exception());
-            var container = Substitute.For<ITodoListContainer>();
+            var container = Substitute.For<ITodoListProvider>();
             container.ResolveAll(_inputInterface).Throws(exceptionWhichWillBeThrow);
             var resolver = new DependencyResolver(container);
 
