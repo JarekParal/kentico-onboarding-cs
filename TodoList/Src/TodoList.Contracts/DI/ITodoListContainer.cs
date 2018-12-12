@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TodoList.Contracts.DI
 {
@@ -8,12 +7,8 @@ namespace TodoList.Contracts.DI
         ITodoListContainer RegisterType<TContract, TImplementation>(Lifetime lifetime)
             where TImplementation : TContract;
 
-        ITodoListContainer RegisterType<TContract>(Lifetime lifetime, Func<object> factoryFunc);
+        ITodoListContainer RegisterType<TContract>(Lifetime lifetime, Func<object> factoryMethod);
 
-        object Resolve(Type type);
-
-        IEnumerable<object> ResolveAll(Type type);
-
-        ITodoListContainer CreateChildContainer();
+        ITodoListProvider GetProvider();
     }
 }

@@ -8,13 +8,14 @@ using Unity.Injection;
 
 namespace TodoList.DI.Containers
 {
-    internal sealed class TodoListContainer : ITodoListContainer
+    internal sealed class TodoListContainer : ITodoListContainer, ITodoListProvider
     {
         private bool _disposed;
         internal readonly IUnityContainer Container;
 
-        public TodoListContainer()
-            => Container = new UnityContainer();
+        internal TodoListContainer() : this(new UnityContainer())
+        {
+        }
 
         internal TodoListContainer(IUnityContainer container)
             => Container = container;
@@ -27,25 +28,17 @@ namespace TodoList.DI.Containers
             return this;
         }
 
-        public ITodoListContainer RegisterType<TContract>(Lifetime lifetime,
-            Func<object> factoryFunc)
+        public ITodoListContainer RegisterType<TContract>(
+            Lifetime lifetime,
+            Func<object> factoryMethod
+        )
         {
-            Container.RegisterType<TContract>(lifetime.GetUnityLifetimeManager(), new InjectionFactory(_ => factoryFunc()));
+            Container.RegisterType<TContract>(
+                lifetime.GetUnityLifetimeManager(),
+                new InjectionFactory(_ => factoryMethod())
+            );
 
             return this;
-        }
-
-        public object Resolve(Type type)
-            => ResolveTypes(() => Container.Resolve(type));
-
-        public IEnumerable<object> ResolveAll(Type type)
-            => ResolveTypes(() => Container.ResolveAll(type));
-
-        public ITodoListContainer CreateChildContainer()
-        {
-            var newChildContainer = Container.CreateChildContainer();
-
-            return new TodoListContainer(newChildContainer);
         }
 
         public void Dispose()
@@ -54,15 +47,32 @@ namespace TodoList.DI.Containers
             {
                 return;
             }
+
             Container.Dispose();
             _disposed = true;
         }
 
-        private static T ResolveTypes<T>(Func<T> resolveFunc)
+        public ITodoListProvider GetProvider()
+            => this;
+
+        public object Resolve(Type type)
+            => ResolveTypes(() => Container.Resolve(type));
+
+        public IEnumerable<object> ResolveAll(Type type)
+            => ResolveTypes(() => Container.ResolveAll(type));
+
+        public ITodoListProvider CreateChildContainer()
+        {
+            var newChildContainer = Container.CreateChildContainer();
+
+            return new TodoListContainer(newChildContainer).GetProvider();
+        }
+
+        private static T ResolveTypes<T>(Func<T> resolveMethod)
         {
             try
             {
-                return resolveFunc();
+                return resolveMethod();
             }
             catch (ResolutionFailedException exception)
             {

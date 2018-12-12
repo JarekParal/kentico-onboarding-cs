@@ -22,12 +22,13 @@ namespace TodoList.DI.DependencyResolvers
         {
             IBootstrapper bootstrapper = new TBootstrapper();
             bootstrapper.Register(_container);
+
             return this;
         }
 
         public IDependencyResolver Build()
         {
-            return new DependencyResolver(_container);
+            return new DependencyResolver(_container.GetProvider());
         }
     }
 }
