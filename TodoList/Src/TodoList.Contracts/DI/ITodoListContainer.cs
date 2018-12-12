@@ -7,7 +7,7 @@ namespace TodoList.Contracts.DI
         ITodoListContainer RegisterType<TContract, TImplementation>(Lifetime lifetime)
             where TImplementation : TContract;
 
-        ITodoListContainer RegisterType<TContract>(Lifetime lifetime, Func<object> factoryMethod);
+        ITodoListContainer RegisterType<TContract>(Lifetime lifetime, Func<TContract> factoryMethod);
 
         ITodoListProvider GetProvider();
     }

@@ -30,7 +30,7 @@ namespace TodoList.DI.Containers
 
         public ITodoListContainer RegisterType<TContract>(
             Lifetime lifetime,
-            Func<object> factoryMethod
+            Func<TContract> factoryMethod
         )
         {
             Container.RegisterType<TContract>(
