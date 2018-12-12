@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Dependencies;
 using TodoList.Contracts.DI;
-using TodoList.DI.Containers;
 
 namespace TodoList.DI.DependencyResolvers
 {
